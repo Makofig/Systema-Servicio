@@ -1,12 +1,17 @@
+<?php
+    require_once BASE_PATH.'/includes/helper.php';
+    require_once BASE_PATH.'/includes/conexion.php';
+    $db = getDBConnection();
+?>
 <aside class="sidebar">    
     <div class="header">
         <title>INTER SYS</title>
-        <h3>Bienvenido, <?=$_SESSION['usuario']['nombre']?></h3>
+        <h3>Bienvenido, </h3>
     </div>
     <!-- Barra lateral -->
     <div class="body">
         <ul>
-            <li class="border"><a href="/src/principal.php">Inicio</a></li>
+            <li class="border"><a href="/home">Inicio</a></li>
         </ul> 
         <details>
             <summary>Clientes</summary>

@@ -1,7 +1,7 @@
 <?php
-
 if(isset($_POST)){
-    require_once 'includes/conexion.php';
+    require_once BASE_PATH.'includes/conexion.php';
+    $db = getDBConnection();
     if (!isset($_SESSION)){
         session_start();
     }
@@ -54,15 +54,12 @@ if(isset($_POST)){
         }else {
             $_SESSION['errores']['registro'] = 'Fallo al guardar el usuario'; 
         }
-        
-        
     }else{
         $_SESSION['errores'] = $errores;
         //Redireccion a la pagina principal 
-         header('Location: index.php');
+         header('Location: /login');
     }
 }
 //Redireccion a la pagina principal 
-header('Location: index.php');
-
+header('Location: /login');
 ?>

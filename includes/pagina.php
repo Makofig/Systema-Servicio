@@ -1,5 +1,4 @@
-<?php require_once 'conexion.php'; ?>
-<?php require_once 'helper.php';?>
+<?php require_once BASE_PATH.'/includes/helper.php';?>
 <!DOCTYPE HTMAL>
 <html lang="es">
     <head>
@@ -18,8 +17,8 @@
         <?php 
             //Desactiva las advertencias temporanles. 
             //error_reporting(E_ERROR | E_PARSE); 
-            require_once 'lateral.php';
-            require_once 'up.php'; 
+            require_once BASE_PATH.'/includes/lateral.php';
+            require_once BASE_PATH.'/includes/up.php'; 
             borrarErrores();
         ?>
     

@@ -1,5 +1,4 @@
-<?php require_once '../includes/conexion.php'; ?>
-<?php require_once '../includes/Helper.php';?>
+<?php require_once BASE_PATH.'/includes/helper.php'?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +9,7 @@
 <body>
     <div class="container">
         <h2>Registro</h2>
-        <form accept-charset="utf-8" action="registro.php" method="POST">
+        <form accept-charset="utf-8" action="/registro" method="POST">
             <label for="nombre">Nombre</label>
             <input type="text" name="nombre" required>
             <?php echo isset($_SESSION['errores']) ? mostrarErrores($_SESSION['errores'], 'nombre'): '';?>

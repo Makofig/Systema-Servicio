@@ -1,5 +1,5 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/Master-php/InterSys-2_1.0/includes/conexion.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/conexion.php');
 $errores = array();
 if (isset($_SESSION['usuario']) && isset($_GET['id'])){
     $id = $_GET['id'];
@@ -7,7 +7,7 @@ if (isset($_SESSION['usuario']) && isset($_GET['id'])){
     mysqli_query($db, $sql);
 }
 $errores['disponible']="SE ELIMINO CORRECTAMENTE - Redireccionando...";
-require_once ($_SERVER['DOCUMENT_ROOT'].'/Master-php/InterSys-2_1.0/includes/pagina.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
 echo "<div id='principal' class='bloque-cont'>".
                 $errores['disponible']. 
              "</div>";

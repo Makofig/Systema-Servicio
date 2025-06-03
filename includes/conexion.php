@@ -8,6 +8,22 @@ $dotenv->load();
 #var_dump($_SERVER['DB_USER']); 
 #var_dump(__DIR__); 
 #var_dump(BASE_URL); 
+function getDBConnection() {
+    $host = $_ENV['HOST'];
+    $user = $_ENV['DB_USER'];
+    $password = $_ENV['DB_PASSWORD'];
+    $database = $_ENV['DB_DATABASE'];
+    $port = $_ENV['DB_PORT'];
+
+    $db = new mysqli($host, $user, $password, $database, $port);
+    if ($db->connect_error) {
+        die("Error de conexión: " . $db->connect_error);
+    }
+
+    return $db;
+}
+/*
+global $db;
 $host = $_ENV['HOST'] ?? 'localhost';
 $user = $_ENV['DB_USER'] ?? 'root';
 $password = $_ENV['DB_PASSWORD'] ?? '123456789';
@@ -25,7 +41,8 @@ if (!$db){
 //Iniciar Sesion 
 if (!isset($_SESSION)){    
     session_start();
-}    
+}
+*/    
 ?>
 
 

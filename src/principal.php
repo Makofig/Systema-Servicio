@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); ?> 
+<?php require_once (BASE_PATH.'/includes/pagina.php'); ?> 
 
 <head>
     <meta charset="UTF-8">
