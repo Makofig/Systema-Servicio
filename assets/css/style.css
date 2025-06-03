@@ -1,0 +1,470 @@
+/*FUENTES*/  
+@import url('https://fonts.googleapis.com/css2?family=Geologica:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@font-face{
+    font-family: "fajala";
+    src: url(../fonts/fuente.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+    border: 0; 
+    text-decoration: none;
+    font-family: "fajala", "Roboto", Arial, sans-serif; 
+}
+/* Esconder el Scroll */
+::-webkit-scrollbar {
+    display: none;
+}
+body{
+    display: grid;
+    background-color: CDCDCD;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 15rem 4fr; 
+    grid-template-areas:
+        "aside header"
+        "aside main"
+        ;
+}
+aisde{
+    grid-area: aside;
+    min-width: 200px;
+}
+header{
+    grid-area: header;
+}
+main{
+    grid-area: main;
+}
+/*Eliminar la seleccion de enlace en a*/
+a.class_a_href{
+    pointer-events: none; 
+    cursor: default; 
+}
+a:link, a:visited, a:hover, a:active
+{
+    color: #000000;
+    text-decoration: none; 
+}
+h1{
+    font-family: "fajala";
+}
+h2{
+    font-family: "fajala";
+}
+.titulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.izquierda {
+  text-align: left;
+}
+.derecha {
+  text-align: right;
+}
+.alerta{
+    padding: 5px;
+    font-size: 14px;
+    color: white;
+    background: green;
+    box-shadow: 0px 1px 3px #ccc;
+    margin-bottom: 15px;
+    border-radius: 2px;
+}
+.alerta-error{
+    background: red;
+}
+.fecha{
+    color: #333;
+    margin-top:5px;
+    font-size: 14px;
+}
+.precio{
+    float:right;
+    color:  black;
+    width: 20%;
+    height: auto;
+}
+.precio-p {
+    float:right;
+    width: 20%;
+    height: auto;
+    color: white;
+}
+/* Etilando la Barra lateral */
+.sidebar{
+   height: 100vh;
+   width: 16.5rem;
+   background-color: #222;
+   position: fixed;
+   display: flex;
+   flex-direction: column;
+   padding: 1.4rem;
+   gap: 1rem; 
+   box-sizing: border-box;
+   box-shadow: 0 2rem 3rem rgba(132, 139, 200, 0.18);
+   transition: all 0.3s ease;   
+}
+.sidebar:hover{
+    box-shadow: none;
+}
+.sidebar .header{
+    background-color: #333;
+    color: #fff;
+    padding: 1.2rem;
+}
+.sidebar .body{
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1.2rem;
+    gap: 1rem; 
+}
+.sidebar .body button{
+    position: static;
+    bottom: 2rem; 
+    margin-left: 0.8rem; 
+}
+.sidebar ul{
+    list-style: none;
+}
+.sidebar ul li a{
+     color: white;
+     display: block; 
+     padding: 0.8rem; 
+     border-radius: 0.5rem;
+}
+.sidebar .body .border {
+    border-width: 1px;
+    color: white;
+    transition: border-image 0.3s ease-in-out;
+}
+
+.sidebar .body .border:hover {
+    border-image: linear-gradient(90deg, transparent, white, transparent);
+    border-image-slice: 1;
+    border-style: solid;
+}
+.sidebar details summary{
+    color: white;
+    list-style: none;
+    font-weight: bold;
+    padding: 0.8rem; 
+    cursor: pointer;
+    border-width: 1px;
+    transition: border-image 0.3s ease-in-out;
+}
+.sidebar details summary:hover{
+    border-image: linear-gradient(90deg, transparent, white, transparent);
+    border-image-slice: 1;
+    border-style: solid;
+}
+.sidebar details .cont-details{
+    background-color: #333;
+    border: 1px solid #222;
+    border-radius: 0.8rem;
+    margin-left: 0.5rem;
+}
+/* Fin Estilo de la barra lateral */
+/* Estilo de la cabecera */
+.bar-up{
+    background-color: #c3c3c3; 
+    display: flex; 
+    flex-direction: column;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    padding: 1.4rem;
+    margin-bottom: 0.8rem;
+    gap: 1.4rem; 
+}
+.bar-up .search{
+    display: flex;
+    flex-wrap: nowrap;
+    width: 30vw;
+    max-width: 50rem; 
+    align-items: center;
+    align-content: center;
+    padding: 0.8rem;
+    border-radius: 0.5rem;  
+}
+.bar-up .search:hover{
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+.bar-up .search input[type="text"]{
+    border: 1px solid #ccc;
+    width: 25vw;
+    border-radius: 0.5rem;
+    background-color: #c7c8ca;
+    outline: none; 
+    padding: 0.8rem; 
+}
+.bar-up .search button{
+    background-color: #c7c8ca;
+    position: relative;
+    border: none; 
+    border-radius: 50%;
+    left: -30px;
+    top: 5px;
+    cursor: pointer;
+}
+.bar-up .search button img{
+    width: 20px;
+    height: 20px;
+}
+.conteiner{
+    display: grid; 
+    grid-template-columns: repeat(6, 0.5fr);
+    font-size: 0.8rem;
+    justify-items: center; 
+}
+.conteiner .block{
+    width: 10rem;
+    height: 6rem;
+    display: inherit; 
+    text-align: center;
+    place-content: center;
+    color: white;
+    border-radius: 0.8rem;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.conteiner .block:hover{
+    box-shadow: none;
+}
+.conteiner a{
+    text-decoration: none;
+    color: white; 
+}
+.conteiner .color-1{
+    background-color:#F7D060; 
+}
+.conteiner .color-2{
+    background-color:#1B9C85; 
+}
+.conteiner .color-3{
+    background-color:#FF0060; 
+}
+.conteiner .color-4{
+    background-color: #7d8da1;
+}
+/* Fin Estilo de la Cabecera */
+/* Estilos de los contenedores */
+main article{
+    display: flex;
+    flex-direction: column;
+    width: 25rem;
+    gap: 1rem;
+    margin: 0 0 0 0.8rem; 
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    padding: 1.2rem;
+    border-radius: 0.5rem;
+}
+main article > div{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+main form{
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    width: 40vw;
+    gap: 0.8rem;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    padding: 1.2rem; 
+    border-radius: 0.8rem;
+    cursor: pointer;
+    transition: all 0.3s ease; 
+}
+main form:hover{
+    box-shadow: none; 
+}
+main form > section{
+    display: grid; 
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+            "label label"
+            "input input"
+        ;
+    gap: 0.5rem 0;
+} 
+main form input[type="text"],
+          input[type="tel"],
+          input[type="email"],
+          input[type="number"],
+          input[type="password"]{
+            width: 15rem;
+            height: 2rem;
+            border: 1px solid #333333;
+            padding: 0.5rem;
+            border-radius: 0.2rem; 
+            background-color: #555555;
+            color: #ffffff;
+            font-size: 1rem;
+        }
+main form input[type="text"]:focus,
+          input[type="tel"]:focus,
+          input[type="email"]:focus,
+          input[type="number"]:focus,
+          input[type="password"]:focus{
+            background-color: #ffffff;
+            color: #333333;
+            border-color: #4caf50;
+        }
+main form input[type="date"]{
+            width: 10rem; 
+            height: 2rem;
+            display: inline-block;
+            border: 1px solid #666;
+            padding: 0.5rem;
+            border-radius: 0.2rem;
+            background-color: #555555;
+            color: #fff; 
+            font-size: 1rem;
+            cursor: pointer;
+        }
+main form input[type="date"]:focus{
+            outline: none;
+            border-color: #007bff;
+        }  
+main form input[type="submit"]{
+           width: 7rem;
+           height: 1.8rem;
+           font-size: 1rem;
+           padding: 0.3rem;
+           border-radius: 0.3rem;
+           text-align: center;
+           cursor: pointer;
+           color: white; 
+        }
+main form textarea{
+    max-width: 80%;
+    min-width: 40%;
+    min-height: 80px;
+    max-height: 100px;
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #333;
+    padding: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+}
+       
+/* Estilo del main*/
+
+.container-main{
+    display: flex; 
+    flex-direction: column;
+    padding: 0.8rem;
+    gap: 0.5rem;
+}
+.container-main > div{
+    width: 98%;
+    height: 10rem;
+    background:#c3c3c3;
+    box-sizing: border-box;
+    padding: 0.8rem;
+    margin: 0 0 0 0.8rem; 
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+/*.container-main > div:active{
+    box-shadow: 0 5px #8c8c8c;
+    transform: translateY(4px);
+}*/
+.container-main > div:hover{
+    box-shadow: none;
+}
+.container-main #container{
+    width: 90%;
+    height: auto;
+    padding: 2rem; 
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+}
+/* Estilos generales */
+.boton{
+    width: 8rem;
+    height: 1.8rem;
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+    border-radius: 0.3rem;
+    text-align: center;
+    cursor: pointer;
+    color: white !important;
+}
+.boton-azul{
+    background: #007ee5;
+    border: none;
+}
+.boton-verde{
+    background: #4caf50;
+    border: none;
+}
+.boton-rojo{
+    background: red;
+    border-color: #444;
+}
+.boton-verde:hover{
+    background: #45a049;
+}
+.boton-azul:hover{
+    background:#107acc;
+}
+/* Paginacion */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    padding: 10px;
+}
+.pagination a,
+.pagination .current-page {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    text-decoration: none;
+    color: #333;
+    background-color: #f2f2f2;
+    margin: 0 5px;
+    border-radius: 5px;
+}
+.pagination a:hover {
+    background-color: #ddd;
+}
+.pagination .current-page {
+    background-color: #4CAF50;
+    color: #fff;
+}
+/*ETIQUETA SELECT*/
+.estilo-select {
+    max-width: 200px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer; 
+    transition: border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+.estilo-select:hover {
+    border-color: #999;
+}
+
+.estilo-select:focus {
+    outline: none;
+    border-color: #555;
+    background-color: #fff;
+    color: #555;
+}
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}
+
