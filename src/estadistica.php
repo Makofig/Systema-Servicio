@@ -45,25 +45,25 @@
         grid-column: 1/4;
         grid-row: 2/5;
     }
-    .color-1{
+    .color-e1{
         /*background-color:#1B9C85;*/ 
         background-color: rgba(27, 156, 133, 0.5);
         border: 2px solid rgba(27, 156, 133, 1);
     }
-    .color-2{
+    .color-e2{
         background-color:#F7D060; 
     }
-    .color-3{
+    .color-e3{
         /*background-color:#FF0060;*/
         background-color: rgba(255, 0, 96, 0.5);
         border: 2px solid rgba(255, 0, 96, 1);
     }
-    .color-4{
+    .color-e4{
         /*background-color: #7d8da1;*/
         background-color: rgba(125, 141, 161, 0.5);
         border: 2px solid rgba(125, 141, 161, 1);
     } 
-    .color-5{
+    .color-e5{
         background-color: #cdcdcd;
     }
    
@@ -107,10 +107,10 @@
             
             $meses = convertMes($mes); 
         ?>
-        <div class="bloque color-1"><span>Total Abonado: $<?=number_format($totalAbonado, 2) ?></span></div>
-        <div class="bloque color-3"><span>Total Adeudado: $<?=number_format($totalAdeudado, 2) ?></span></div>
-        <div class="bloque color-4"><span>Total: $<?=number_format($totalCompleto, 2) ?></span></div>    
-        <div class="grahp color-5">
+        <div class="bloque color-e1"><span>Total Abonado: $<?=number_format($totalAbonado, 2) ?></span></div>
+        <div class="bloque color-e3"><span>Total Adeudado: $<?=number_format($totalAdeudado, 2) ?></span></div>
+        <div class="bloque color-e4"><span>Total: $<?=number_format($totalCompleto, 2) ?></span></div>    
+        <div class="grahp color-e5">
             <canvas id="grafica"></canvas>
             <script type="text/javascript">
                 // Obtener una referencia al elemento canvas del DOM
@@ -146,7 +146,7 @@
             </script>
         </div>
         <!--
-        <div class="bloque color-4">
+        <div class="bloque color-e4">
             <?php
                 foreach ($meses as $index => $valor):
             ?>
@@ -155,7 +155,7 @@
         </div>
         -->
         <!--GRAFICA LINEAL-->
-        <div class="grahp color-5">
+        <div class="grahp color-e5">
             <canvas id="graficaLineal"></canvas>
             <script>
                 // Obtener una referencia al elemento canvas del DOM

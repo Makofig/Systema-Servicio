@@ -1,5 +1,4 @@
-<?php require_once (BASE_PATH.'/includes/pagina.php'); ?>
-<?php require_once (BASE_PATH.'/includes/conexion.php'); ?>  
+<?php require_once (BASE_PATH.'/includes/pagina.php'); ?> 
 <!-- Contenido Principal -->
 <main class="container-main">
     <?php  
@@ -21,7 +20,7 @@
     While ($ent = mysqli_fetch_assoc($resultEntradas)):                        
     ?>
     <div>
-        <a href="/content/contenido.php?id=<?=$ent['id']?>">
+        <a href="/cliente/contenido/<?=$ent['id']?>">
             <h2><?=$ent['apellido'].' '.$ent['nombre']?></h2>
             <span class="fecha"><?=$ent['fecha_alta'].' | ';?></span>
             <p><?=$ent['direccion']?></p>
