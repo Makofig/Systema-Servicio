@@ -1,6 +1,5 @@
 <?php  
 require_once (BASE_PATH.'/includes/pagina.php'); 
-require_once (BASE_PATH.'/includes/conexion.php');
 ?>
 <style>
     header{
@@ -57,7 +56,6 @@ require_once (BASE_PATH.'/includes/conexion.php');
         <h2>Lista de Deudores</h2>
         <select class="estilo-select" name="select" id="select">
             <?php
-                $db = getDBConnection();
                 $consulta = $db->prepare("select id,numero AS cuota from cuotas;");
                 $consulta->execute();
                 $resultado = $consulta->get_result();

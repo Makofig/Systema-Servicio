@@ -1,9 +1,7 @@
 <?php require_once (BASE_PATH.'/includes/pagina.php'); ?>
-<?php require_once (BASE_PATH.'/includes/conexion.php'); ?>
 <main class="container-main">
     <!-- Contenido Principal -->
     <?php  
-        $db = getDBConnection();
         #$id = $params['id'] ?? null;
         #var_dump($id);
         #var_dump($_GET['id']);

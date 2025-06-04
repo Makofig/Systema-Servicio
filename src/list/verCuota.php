@@ -1,6 +1,6 @@
 <?php
 $numId = $_GET['id'];
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+require_once (BASE_PATH.'/includes/pagina.php'); 
 ?>
 <style>
     main h1{

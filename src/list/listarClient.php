@@ -6,13 +6,11 @@
         background: rgba(0, 255, 0, 0.3) !important;
     }
 </style>
-<?php require_once (BASE_PATH.'/includes/pagina.php'); ?>
-<?php require_once (BASE_PATH.'/includes/conexion.php'); ?>  
+<?php require_once (BASE_PATH.'/includes/pagina.php'); ?> 
 <?php require_once (BASE_PATH.'/includes/helper.php'); ?>
         <main class="container-main">
             <!-- Contenido Principal -->
             <?php
-            $db = getDBConnection();
             $Limite = 5;
             $iniciar = ($_GET['pagina']-1)* $Limite;
             $TotalRegistro = ClienteTotal($db); 
@@ -28,7 +26,7 @@
                 }
             ?>
             <div class="<?=$class?>">
-                <a href="/src/content/contenido.php?id=<?=$ent['id']?>">
+                <a href="/cliente/contenido/<?=$ent['id']?>">
                     <h2><?=$ent['apellido'].' '.$ent['nombre']?></h2>
                     <h4 class="fecha"><?=$ent['fecha_alta'].' | '.$ent['nom_cli'];?></h4>
                 </a>

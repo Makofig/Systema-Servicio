@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');?>  
+<?php require_once (BASE_PATH.'/includes/pagina.php');?>  
 <!-- Contenido Principal -->
 <main class="container-main">
     <?php    
@@ -9,7 +9,7 @@
             $res_ent = mysqli_fetch_assoc($ent_act);
 
         }else{
-            header("Location: ../principal.php");
+            header("Location: /home");
         }
     ?> 
     <article>

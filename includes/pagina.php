@@ -1,4 +1,7 @@
 <?php require_once BASE_PATH.'/includes/helper.php';?>
+<?php require_once BASE_PATH.'/includes/conexion.php';
+    $db = getDBConnection();
+?>
 <!DOCTYPE HTMAL>
 <html lang="es">
     <head>

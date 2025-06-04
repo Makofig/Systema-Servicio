@@ -14,7 +14,7 @@
         <div class="block color-2"><h3>3mb: <?= ClientePremiun($db)?></h3></div>
         <div class="block color-4"><h3>Total: $<?= number_format(Total($db), 2)?></h3></div>
         <div class="block color-1">
-            <a href="/cliente/listar/pagado/1">
+            <a href="/cliente/pagado/1">
                 <h3>Pagado: $<?= number_format(Recaudado($db), 2)?></h3>
             </a>
         </div>

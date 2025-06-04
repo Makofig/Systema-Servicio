@@ -1,12 +1,9 @@
 <?php
     require_once (BASE_PATH.'/includes/pagina.php');
-    require_once (BASE_PATH.'/includes/conexion.php'); 
-    require_once (BASE_PATH.'/includes/helper.php'); 
 ?>  
 <main class="container-main">
     <!-- Contenido Principal -->
     <?php 
-    $db = getDBConnection();
     $Limite = 5;
     $iniciar = ($_GET['pagina']-1)* $Limite;
     $fecha = getdate();
@@ -20,7 +17,7 @@
     While ($ent = mysqli_fetch_assoc($resutl)):
     ?>
     <div>
-        <a href="../content/contenido.php?id=<?=$ent['id_cl']?>">
+        <a href="/cliente/contenido/<?=$ent['id_cl']?>">
             <h2><?=$ent['apellido'].' '.$ent['nombre']?></h2>
             <h3 class="fecha derecha"><?= number_format($ent['costo'],2);?></h3>
         </a>

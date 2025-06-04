@@ -18,7 +18,8 @@ $router->post('buscar', '/src/buscar.php');
 // Cliente 
 $router->get('cliente/crear', '/src/create/crearCliente.php');
 $router->get('cliente/listar/{pagina}', '/src/list/listarClient.php');
-$router->get('cliente/listar/pagado/{pagina}', '/src/list/listarPagado.php');
+$router->get('cliente/pagado/{pagina}', '/src/list/listarPagado.php');
+$router->get('cliente/contenido/{id}', '/src/content/contenido.php'); 
 $router->get('cliente/deudores/{pagina}', '/src/list/listarDeudores.php');
 $router->get('cliente/deudores/completo', '/src/list/listarDeudoresCompleto.php');
 #$router->get('cliente/getClientesByCuota', '/src/list/getClientesByCuota.php');
@@ -31,6 +32,7 @@ $router->get('plan/listar/{id}', '/src/list/listarPlan.php');
 // Access Point 
 $router->get('point/crear', '/src/create/crearPoint.php');
 $router->get('point/listar', '/src/list/listarPoint.php');
+$router->get('point/contenido/{id}', '/src/content/contenidoPoint.php'); 
 
 // Emitir Cuotas 
 $router->get('cuota/emitir', '/src/create/emitirCuota.php');

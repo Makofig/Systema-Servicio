@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'//includes/pagina.php');?> 
+<?php require_once (BASE_PATH.'/includes/pagina.php');?> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -80,7 +80,7 @@
                     $res_ent = mysqli_fetch_assoc($ent_act);
 
                 }else{
-                    header("Location: //src/principal.php");
+                    header("Location: /home");
                 }
             ?>        
             <h2><?=$res_ent['nombre'] ?>, <?=$res_ent['apellido'] ?></h2>

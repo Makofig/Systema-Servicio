@@ -25,7 +25,7 @@
     While ($ent = mysqli_fetch_assoc($resultEntradas)):
     ?>
     <div>
-        <a href="../content/contenido.php?id=<?=$ent['id_cl']?>">
+        <a href="/cliente/contenido/<?=$ent['id_cl']?>">
             <h2><?=$ent['apellido'].' '.$ent['nombre']?></h2>
             <h3 class="fecha derecha"><?= number_format($ent['costo'],2);?></h3>
         </a>
@@ -33,7 +33,7 @@
     <?php endwhile; ?>
     <footer class="pagination">
     <?php if ($_GET['pagina'] > 1) : ?>
-        <a href="listarPagado.php?pagina=<?php echo $_GET['pagina'] - 1; ?>">Atrás</a>
+        <a href="/cliente/pagado/<?php echo $_GET['pagina'] - 1; ?>">Atrás</a>
     <?php endif; ?>
     <?php
         if ($_GET['pagina'] < ($TotalPaginas - 4)){
@@ -47,11 +47,11 @@
         <?php if ($i == $_GET['pagina']) : ?>
             <span class="current-page"><?php echo $i; ?></span>
         <?php else : ?>
-            <a href="listarPagado.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+            <a href="/cliente/pagado/<?php echo $i; ?>"><?php echo $i; ?></a>
         <?php endif; ?>
     <?php endfor; ?>
     <?php if ($_GET['pagina'] < $TotalPaginas) : ?>
-            <a href="listarPagado.php?pagina=<?php echo $_GET['pagina'] + 1; ?>">Siguiente</a>
+            <a href="/cliente/pagado/<?php echo $_GET['pagina'] + 1; ?>">Siguiente</a>
     <?php endif; ?>
     </footer>
 </main>

@@ -14,15 +14,20 @@ class Router {
 
     public function dispatch($url){
         $path = trim($url, '/'); // Eliminar barras al inicio y al final
-
+        // Rutas para capturar los parametros de la URL Cliete 
         if (preg_match('#^cliente/listar/([0-9]+)$#', $url, $matches)) {
             $_GET['pagina'] = $matches[1];
             require __DIR__ . '/../src/list/listarClient.php';
             return;
         }
-        if (preg_match('#^cliente/listar/pagado/([0-9]+)$#', $url, $matches)) {
+        if (preg_match('#^cliente/pagado/([0-9]+)$#', $url, $matches)) {
             $_GET['pagina'] = $matches[1];
-            require __DIR__ . '/../src/list/listarClient.php';
+            require __DIR__ . '/../src/list/listarPagado.php';
+            return;
+        }
+        if (preg_match('#^cliente/contenido/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/content/contenido.php';
             return;
         }
         if (preg_match('#^cliente/deudores/([0-9]+)$#', $url, $matches)) {
@@ -30,9 +35,16 @@ class Router {
             require __DIR__ . '/../src/list/listarDeudores.php';
             return;
         }
+        // rutas para capturar los parametros de la URL Plan 
         if (preg_match('#^plan/listar/([0-9]+)$#', $url, $matches)) {
             $_GET['id'] = $matches[1];
             require __DIR__ . '/../src/list/listarPlan.php';
+            return;
+        }
+        // Rutas para capturar los parametros de la URL Access Point 
+        if (preg_match('#^point/contenido/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/content/contenidoPoint.php';
             return;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($this->postRoutes[$path])){
