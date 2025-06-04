@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');?>   
+<?php require_once (BASE_PATH.'/includes/pagina.php');?>   
 <main class="container-main">
 <!-- Contenido Principal -->
     <div id="container">

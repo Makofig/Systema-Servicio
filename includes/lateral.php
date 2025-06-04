@@ -6,7 +6,7 @@
 <aside class="sidebar">    
     <div class="header">
         <title>INTER SYS</title>
-        <h3>Bienvenido, </h3>
+        <h3>Bienvenido, <?=$_SESSION['usuario']['nombre']?></h3>
     </div>
     <!-- Barra lateral -->
     <div class="body">
@@ -17,13 +17,13 @@
             <summary>Clientes</summary>
             <div class="cont-details">
                 <ul>
-                    <li><a href="/src/create/crearCliente.php">Nuevo</a></li>
+                    <li><a href="/cliente/crear">Nuevo</a></li>
                 </ul>
                 <ul>
-                    <li><a href="/src/list/listarClient.php">Listar</a></li>
+                    <li><a href="/cliente/listar/1">Listar</a></li>
                 </ul>
                 <ul>
-                    <li><a href="/src/list/listarDeudoresCompleto.php">Deudores</a></li>
+                    <li><a href="/cliente/deudores/completo">Deudores</a></li>
                 </ul>
             </div>    
         </details>    
@@ -31,10 +31,10 @@
             <summary>Plan</summary>
             <div class="cont-details">
             <ul>
-                <li><a href="/src/create/crearPlan.php">Crear Plan</a></li>
+                <li><a href="/plan/crear">Crear Plan</a></li>
             </ul>
             <ul>
-                <li><a href="/src/edit/editPlan.php">Editar Plan</a></li>
+                <li><a href="/plan/editar">Editar Plan</a></li>
             </ul>
             <?php 
                 $consulta = "SELECT * FROM plan;";
@@ -44,7 +44,7 @@
             ?>   
             <ul>
                 <li>
-                    <a href="/src/list/listarPlan.php?id=<?=$cat['id']?>"><?=$cat['nombre']?></a>
+                    <a href="/plan/listar/<?=$cat['id']?>"><?=$cat['nombre']?></a>
                 </li>
             </ul>    
             <?php 
@@ -57,23 +57,23 @@
             <summary>Access Point</summary>
             <div class="cont-details">
             <ul>
-                <li><a href="/src/create/crearPoint.php">Cargar</a></li>
+                <li><a href="/point/crear">Cargar</a></li>
             </ul> 
             <ul>
-                <li><a href="/src/list/listarPoint.php">Listar</a></li>
+                <li><a href="/point/listar">Listar</a></li>
             </ul>
             </div>    
         </details>       
         <ul>
-            <li class="border"><a href="/src/create/emitirCuota.php">Emitir Cuotas</a></li>
+            <li class="border"><a href="/cuota/emitir">Emitir Cuotas</a></li>
         </ul>    
         <ul>
-            <li class="border"><a href="/src/estadistica.php">Estadisticas</a></li>
+            <li class="border"><a href="/estadisticas">Estadisticas</a></li>
         </ul>
         <ul>
-            <li class="border"><a href="/src/edit/editDatos.php">Mis datos</a></li>
+            <li class="border"><a href="/datos/editar">Mis datos</a></li>
         </ul> 
-        <button type="button" onclick="location='/src/cerrar.php'" class="boton boton-azul"> 
+        <button type="button" onclick="location='/logout'" class="boton boton-azul"> 
             Salir
         </button>
     </div>      

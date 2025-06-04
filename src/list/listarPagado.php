@@ -1,9 +1,5 @@
 <?php  
-    if (!$_GET){
-        header('Location: listarPagado.php?pagina=1');
-        die();
-    }
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+    require_once (BASE_PATH.'/includes/pagina.php'); 
 ?>  
 <main class="container-main">
     <!-- Contenido Principal -->

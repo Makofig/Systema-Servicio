@@ -1,13 +1,12 @@
 <?php
-    if (!$_GET){
-        header('Location: listarDeudores.php?pagina=1');
-    }
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    require_once (BASE_PATH.'/includes/pagina.php');
+    require_once (BASE_PATH.'/includes/conexion.php'); 
+    require_once (BASE_PATH.'/includes/helper.php'); 
 ?>  
 <main class="container-main">
     <!-- Contenido Principal -->
     <?php 
-    
+    $db = getDBConnection();
     $Limite = 5;
     $iniciar = ($_GET['pagina']-1)* $Limite;
     $fecha = getdate();
@@ -40,17 +39,17 @@
     <?php if (($totalMon != '0')): ?>
     <footer class="pagination">
         <?php if ($_GET['pagina'] > 1) : ?>
-        <a href="listarDeudores.php?pagina=<?php echo $_GET['pagina'] - 1; ?>">Atrás</a>
+        <a href="/cliente/deudores/<?php echo $_GET['pagina'] - 1; ?>">Atrás</a>
         <?php endif; ?>
         <?php for ($i = $min; $i <= $max; $i++) : ?>
             <?php if ($i == $_GET['pagina']) : ?>
                 <span class="current-page"><?php echo $i; ?></span>
             <?php else : ?>
-                <a href="listarDeudores.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                <a href="/cliente/deudores/<?php echo $i; ?>"><?php echo $i; ?></a>
             <?php endif; ?>
         <?php endfor; ?>
         <?php if ($_GET['pagina'] < $TotalPaginas) : ?>
-                <a href="listarDeudores.php?pagina=<?php echo $_GET['pagina'] + 1; ?>">Siguiente</a>
+                <a href="/cliente/deudores<?php echo $_GET['pagina'] + 1; ?>">Siguiente</a>
         <?php endif; ?>
     </footer>
     <?php endif;?>

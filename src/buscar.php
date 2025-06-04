@@ -1,18 +1,21 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); ?> 
+<?php require_once (BASE_PATH.'/includes/pagina.php'); ?>
+<?php require_once (BASE_PATH.'/includes/conexion.php'); ?>  
 <!-- Contenido Principal -->
 <main class="container-main">
     <?php  
     if (!isset($_POST['busqueda'])){
-        header("Location: ../index.php");
+        header("Location: /home");
     }
     ?>    
     <h1 style="padding: 1rem;">Busqueda: <?=$_POST['busqueda'] ?></h1>
     </br>
     <?php 
-    $busq = $_POST['busqueda'];
+    $busq = trim($_POST['busqueda']); // quitamos los espacios en blanco al inicio y al final 
     $busqLower = strtolower($busq); 
+    $busqLike = "%$busqLower%"; // Comodines para busqueda parcial 
+    
     $consulta = $db->prepare("SELECT * FROM cliente WHERE LOWER(nombre) LIKE ? or LOWER(apellido) LIKE ?;");
-    $consulta->bind_param("ss", $busqLower, $busqLower);
+    $consulta->bind_param("ss", $busqLike, $busqLike);
     $consulta->execute();
     $resultEntradas = $consulta->get_result();
     While ($ent = mysqli_fetch_assoc($resultEntradas)):                        

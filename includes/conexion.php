@@ -19,7 +19,9 @@ function getDBConnection() {
     if ($db->connect_error) {
         die("Error de conexión: " . $db->connect_error);
     }
-
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
     return $db;
 }
 /*

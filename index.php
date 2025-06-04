@@ -12,6 +12,35 @@ $router->get('formulario', '/src/formulario.php');
 $router->get('logout', '/src/cerrar.php'); 
 $router->get('home', '/src/principal.php'); 
 
+// Buscar 
+$router->post('buscar', '/src/buscar.php');
+
+// Cliente 
+$router->get('cliente/crear', '/src/create/crearCliente.php');
+$router->get('cliente/listar/{pagina}', '/src/list/listarClient.php');
+$router->get('cliente/listar/pagado/{pagina}', '/src/list/listarPagado.php');
+$router->get('cliente/deudores/{pagina}', '/src/list/listarDeudores.php');
+$router->get('cliente/deudores/completo', '/src/list/listarDeudoresCompleto.php');
+#$router->get('cliente/getClientesByCuota', '/src/list/getClientesByCuota.php');
+
+// Plan 
+$router->get('plan/crear', '/src/create/crearPlan.php'); 
+$router->get('plan/editar', '/src/edit/editPlan.php');
+$router->get('plan/listar/{id}', '/src/list/listarPlan.php');
+
+// Access Point 
+$router->get('point/crear', '/src/create/crearPoint.php');
+$router->get('point/listar', '/src/list/listarPoint.php');
+
+// Emitir Cuotas 
+$router->get('cuota/emitir', '/src/create/emitirCuota.php');
+
+// Estadisticas
+$router->get('estadisticas', '/src/estadistica.php');
+
+// Editar Datos Usuario 
+$router->get('datos/editar', '/src/edit/editDatos.php');
+
 $router->post('authenticate', '/src/authenticate.php');
 $router->post('registro', '/src/registro.php'); 
 // Obtener la URL Limp ia 

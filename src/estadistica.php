@@ -1,4 +1,5 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); ?>
+<?php require_once (BASE_PATH.'/includes/pagina.php'); ?>
+<?php require_once (BASE_PATH.'/includes/conexion.php'); ?>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +71,7 @@
 <main>
     <div class="contenedor">
         <?php 
+            $db = getDBConnection();
             /*$fecha = getdate();
             $mes = $fecha['mon'];
             var_dump($mes); 

@@ -1,9 +1,14 @@
 <?php
 // Aquí debes incluir la conexión a la base de datos y cualquier otra configuración necesaria
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/conexion.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/helper.php');
+if (!defined('BASE_PATH')) {
+    define('BASE_PATH', dirname(__DIR__, 2));
+}
+
+require_once (BASE_PATH.'/includes/conexion.php');
+require_once (BASE_PATH.'/includes/helper.php');
 // Verificar si se recibió el parámetro 'cuota' en la solicitud
 if(isset($_GET['cuota'])) {
+    $db = getDBConnection();
     // Obtener el valor de 'cuota' desde la solicitud
     $cuota = $_GET['cuota'];
 

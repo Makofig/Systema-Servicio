@@ -1,5 +1,6 @@
 <?php  
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+require_once (BASE_PATH.'/includes/pagina.php'); 
+require_once (BASE_PATH.'/includes/conexion.php');
 ?>
 <style>
     header{
@@ -56,6 +57,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
         <h2>Lista de Deudores</h2>
         <select class="estilo-select" name="select" id="select">
             <?php
+                $db = getDBConnection();
                 $consulta = $db->prepare("select id,numero AS cuota from cuotas;");
                 $consulta->execute();
                 $resultado = $consulta->get_result();
@@ -95,7 +97,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
         var selectedCuota = '3'; 
         // Realizar una petición AJAX para obtener los clientes de la cuota predeterminada
         var xhr = new XMLHttpRequest();
-        xhr.open('GET', 'getClientesByCuota.php?cuota=' + selectedCuota, true);
+        xhr.open('GET', '/src/list/getClientesByCuota.php?cuota=' + selectedCuota, true);
         xhr.onload = function() {
             if (xhr.status === 200) {
                 // Insertar la respuesta en el cuerpo de la tabla de clientes
@@ -112,7 +114,7 @@ require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
 
             // Realizar una petición AJAX para obtener los clientes de la cuota seleccionada
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'getClientesByCuota.php?cuota=' + selectedCuota, true);
+            xhr.open('GET', '/src/list/getClientesByCuota.php?cuota=' + selectedCuota, true);
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     // Limpiar el cuerpo de la tabla
