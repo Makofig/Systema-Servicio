@@ -1,7 +1,9 @@
 <?php
 if (isset($_POST)){
     
-    require_once '../../includes/conexion.php';
+    require_once BASE_PATH.'/includes/conexion.php';
+    $db = getDBConnection(); 
+
     $nuevo_costo = isset($_POST['costo']) ? mysqli_real_escape_string($db, $_POST['costo']) : false;
     $nuevo_nom = isset($_POST['nombre']) ? mysqli_real_escape_string($db, $_POST['nombre']) : false; 
     $errores = array();
@@ -30,8 +32,8 @@ if (isset($_POST)){
         }else{
             $errores['disponible'] = "SE CARGO CORRECTAMENTE - Redireccionando...";
         }  
-        header('refresh:3, url=/principal.php');
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+        header('refresh:3, url=/home');
+        require_once (BASE_PATH.'/includes/pagina.php');
         echo "<main id='principal' class='bloque-cont'>".
                     $errores['disponible']. 
                  "</main>";
@@ -40,12 +42,12 @@ if (isset($_POST)){
         if (isset($_GET['editar'])){
             header("refresh:3, url=/edit/editCuota.php?id=".$_GET['editar']);
         }else{
-            header('refresh:3, url=/create/createPlan.php');
+            header('refresh:3, url=/plan/crear');
         }
         echo "<main id='principal' class='bloque-cont'>".
                 $_SESSION['errores_entradas']. 
              "</main>";
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');    
+        require_once (BASE_PATH.'/includes/pagina.php');    
     }
     borrarErrores();
 }

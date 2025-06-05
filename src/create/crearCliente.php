@@ -1,5 +1,5 @@
 <?php 
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+    require_once (BASE_PATH.'/includes/pagina.php'); 
 ?>  
 <!-- Contenido Principal -->
 <main class="container-main">
@@ -9,7 +9,7 @@
             Añadir nuevo Cliente 
         </p>
         <br/>
-        <form action="../save/guardarCliente.php" method="POST">
+        <form action="/cliente/guardar" method="POST">
             <section>
                 <label for="nombre">Nombre: </label>
                 <label for="apellido">Apellido: </label>

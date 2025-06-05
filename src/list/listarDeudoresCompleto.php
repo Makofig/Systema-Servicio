@@ -56,13 +56,55 @@ require_once (BASE_PATH.'/includes/pagina.php');
         <h2>Lista de Deudores</h2>
         <select class="estilo-select" name="select" id="select">
             <?php
-                $consulta = $db->prepare("select id,numero AS cuota from cuotas;");
+                $consulta = $db->prepare("select id,fecha_emision, numero AS cuota from cuotas;");
                 $consulta->execute();
                 $resultado = $consulta->get_result();
-                while ($ent = mysqli_fetch_assoc($resultado)) :
+                while ($ent = mysqli_fetch_assoc($resultado)): 
+                    switch ($ent['cuota']) {
+                        case '1':
+                            $mes = 'Enero'; 
+                            break;
+                        case '2':
+                            $mes = 'Febrero'; 
+                            break;    
+                        case '3':
+                            $mes = 'Marzo'; 
+                            break;
+                        case '4':
+                            $mes = 'Abril'; 
+                            break;
+                        case '5':
+                            $mes = 'Mayo'; 
+                            break;
+                        case '6':
+                            $mes = 'Junio'; 
+                            break;
+                        case '7':
+                            $mes = 'Julio'; 
+                            break;
+                        case '8':
+                            $mes = 'Agosto'; 
+                            break;
+                        case '9':
+                            $mes = 'Septiembre'; 
+                            break;
+                        case '10':
+                            $mes = 'Octubre'; 
+                            break;
+                        case '11':
+                            $mes = 'Noviembre'; 
+                            break;
+                        case '12':
+                            $mes = 'Diciembre'; 
+                            break;
+
+                        default:
+                            $mes = 'Mes no definido';
+                            break;
+                    }
             ?>
-            <option value="<?=$ent['cuota']?>">
-                <?=$ent['cuota']?>
+            <option value="<?=$ent['cuota']. '-' . date('Y', strtotime($ent['fecha_emision']))?>">
+                <?=$mes .' '. $ent['fecha_emision']?>
             </option>
                 <?php endwhile;?>
         </select>
@@ -108,11 +150,13 @@ require_once (BASE_PATH.'/includes/pagina.php');
         
         document.getElementById('select').addEventListener('change', function() {
             // Obtener el valor seleccionado
-            var selectedCuota = this.value;
+            var selected = this.value.split('-'); // ["6", "2023"] 
+            var cuota = selected[0]; 
+            var year = selected[1]; 
 
             // Realizar una petición AJAX para obtener los clientes de la cuota seleccionada
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/src/list/getClientesByCuota.php?cuota=' + selectedCuota, true);
+            xhr.open('GET', '/src/list/getClientesByCuota.php?cuota=' + cuota + '&year=' + year, true);
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     // Limpiar el cuerpo de la tabla

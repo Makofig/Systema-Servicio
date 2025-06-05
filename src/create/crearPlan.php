@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');?> 
+<?php require_once (BASE_PATH.'/includes/pagina.php');?> 
 <!-- Contenido Principal -->
 <main class="container-main">
     <div id="container">
@@ -7,7 +7,7 @@
             Añadir Nuevo Plan
         </p>
         <br/>
-        <form action="../save/guardarPlan.php" method="POST">
+        <form action="/plan/guardar" method="POST">
             <label for="nombre">Nombre del Plan: </label>
             <input type="text" name="nombre" required/>
             <label for="costo">Precio del Plan: </label>

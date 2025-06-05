@@ -1,5 +1,5 @@
 <?php 
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    require_once (BASE_PATH.'/includes/pagina.php');
     $result = clientId($db, $_GET['id']);
     $client = mysqli_fetch_assoc($result);
 ?> 
@@ -9,7 +9,7 @@
         <h2><?=$client['apellido'].', '.$client['nombre']?></h2>
     
         <br/>
-        <form action="../save/guardarCuotaIndividual.php" method="POST">
+        <form action="/cuota/individual/guardar" method="POST">
             <label for="id">ID:</label>
             <input type="text" name="id" value="<?=$_GET['id']?>" readonly=""/> 
             <label for="cuota">Número de cuota: </label>

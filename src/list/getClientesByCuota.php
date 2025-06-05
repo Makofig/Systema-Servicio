@@ -10,14 +10,17 @@ require_once (BASE_PATH.'/includes/helper.php');
 if(isset($_GET['cuota'])) {
     $db = getDBConnection();
     // Obtener el valor de 'cuota' desde la solicitud
-    $cuota = $_GET['cuota'];
+    $cuota = $_GET['cuota'] ?? null; 
+    $year = $_GET['year'] ?? null; 
 
     // Aquí deberías realizar la consulta a la base de datos para obtener los clientes de la cuota seleccionada
     // Por ejemplo, asumiendo que la tabla de clientes se llama 'clientes', y el campo que almacena la cuota se llama 'num_cuotas'
     // Debes reemplazar esto con tu consulta real
-    $consulta = $db->prepare("SELECT c.*, p.* FROM cliente c "
-            . "INNER JOIN pagos p ON p.id_cliente = c.id WHERE p.num_cuotas = ? and p.estado = '0';");
-    $consulta->bind_param("s", $cuota);
+    $consulta = $db->prepare("SELECT cl.*, p.*, co.* FROM cliente cl "
+            . "INNER JOIN pagos p ON p.id_cliente = cl.id "
+            . "INNER JOIN cuotas co ON p.id_cuota = co.id "
+            . "WHERE p.num_cuotas = ? and YEAR(co.fecha_emision) = ? and p.estado = '0';");
+    $consulta->bind_param("ss", $cuota, $year);
     $consulta->execute();
     $resultado = $consulta->get_result();
     $total = $resultado->num_rows; 
@@ -25,7 +28,7 @@ if(isset($_GET['cuota'])) {
     $div = '<div style="color:red; font-size:25px">'.$total.'</div>';
     // Construir el HTML para mostrar los clientes
     $html = '';
-    while ($cliente = mysqli_fetch_assoc($resultado)) {
+    while ($cliente = mysqli_fetch_assoc($resultado)) {   
         $html .= '<tr>';
         $html .= '<td>'.$cliente['apellido'].'</td>';
         $html .= '<td>'.$cliente['nombre'].'</td>';

@@ -1,11 +1,11 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');?> 
+<?php require_once (BASE_PATH.'/includes/pagina.php');?> 
 <main class="container-main">
 <!-- Contenido Principal -->
     <div id="container">
         <h1>Nuevo Access Point</h1>
         <p>Añadir Nuevo AP</p>
         <br/>
-        <form action="../save/guardarPoint.php" method="POST">
+        <form action="/point/guardar" method="POST">
             <section>
                 <label for="nombre">SSID: </label>
                 <label for="frecuencia">Frecuencia: </label>

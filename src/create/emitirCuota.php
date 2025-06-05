@@ -1,5 +1,5 @@
 <?php 
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    require_once (BASE_PATH.'/includes/pagina.php');
     $fecha = getdate();
     $mes = $fecha['mon'];     
 ?> 
@@ -8,7 +8,7 @@
     <div id="container">
         <h1>Cuota N°: <?=$mes?></h1>
         <br/>
-        <form action="../save/guardarCuota.php" method="POST">
+        <form action="/cuota/guardar" method="POST">
             <label for="cuota">Numero de la cuota: </label>
             <input type="text" name="cuota" required value="<?=$mes?>" />
             <label for="fecha">Fecha de Emision: </label>

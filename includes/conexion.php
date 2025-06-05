@@ -1,13 +1,10 @@
 <?php
-require_once __DIR__ . '/../vendor/autoload.php'; // Ruta al autoload de Composer
+require_once __DIR__ . '/../vendor/autoload.php'; 
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 //Conexion 
-#var_dump("getenv:", getenv('DB_USER')); 
-#var_dump($_SERVER['DB_USER']); 
-#var_dump(__DIR__); 
-#var_dump(BASE_URL); 
+ 
 function getDBConnection() {
     $host = $_ENV['HOST'];
     $user = $_ENV['DB_USER'];

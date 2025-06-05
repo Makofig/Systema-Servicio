@@ -1,7 +1,9 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/helper.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/conexion.php');
+require_once (BASE_PATH.'/includes/helper.php');
+require_once (BASE_PATH.'/includes/conexion.php');
 if (isset($_POST)){
+    $db = getDBConnection(); 
+
     $mes_url = $_POST['cuota']; 
     $fecha = $_POST['fecha'];
     $year_url = substr($fecha, 0, 4);  
@@ -46,7 +48,7 @@ if (isset($_POST)){
             $guardar = mysqli_query($db, $sql);
         }else{
             echo $errores;
-            header('Location: /create/emitirCuota.php');
+            header('Location: /cuota/emitir');
         }
         if ($emitir){
             $sqlc = "SELECT * FROM cuotas;";
@@ -57,19 +59,19 @@ if (isset($_POST)){
             }
             GenerarCuotas($db, $cuo_ult, $id_ult);
         }else{
-            header('Location: /list/listarClient.php');
+            header('Location: /cliente/listar/1');
         }
     }else{
         $errores['disponible'] = "LA CUOTA YA FUE EMITIDA - Redireccionando..."; 
-        header("refresh:3, url=/create/emitirCuota.php");
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+        header("refresh:3, url=/cuota/emitir");
+        require_once (BASE_PATH.'/includes/pagina.php'); 
         echo "<main id='principal' class='bloque-cont'>".
                 $errores['disponible']. 
              "</main>"; 
          
     }
-    header('Location: ../principal.php');
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+    header('Location: /home');
+    require_once (BASE_PATH.'/includes/pagina.php'); 
         echo "<main id='principal' class='bloque-cont'>".
                 $errores['disponible']. 
              "</main>";

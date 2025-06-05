@@ -1,8 +1,9 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/helper.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/conexion.php');
+require_once (BASE_PATH.'/includes/helper.php');
+require_once (BASE_PATH.'/includes/conexion.php');
 // Verificar si el formulario ha sido enviado
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $db = getDBConnection(); 
     // FORMATEO PARA LA CARGA A LA BASE DE DATOS; 
     $nuevo_nom = isset($_POST['nombre']) ? mysqli_real_escape_string($db, $_POST['nombre']) : false;
     $nuevo_ape = isset($_POST['apellido']) ? mysqli_real_escape_string($db, $_POST['apellido']) : false;
@@ -67,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 //Cierro el archivo
                 fclose($file);
                 //Redireccionando a la misma pagina 
-                header('Location: cargar-cliente.php');
+                header('Location: /cliente/crear?mensaje=Cliente guardado correctamente.');
                 exit();
             }else{
                 if(file_exists("cliente.txt")){
@@ -105,8 +106,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }else{
             $errores['disponible'] = "SE CARGO CORRECTAMENTE - Redireccionando...";           
         }
-        header("refresh:3, url=../principal.php");  
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+        header("refresh:3, url=/home");  
+        require_once (BASE_PATH.'/includes/pagina.php');
         echo "<main id='principal' class='bloque-cont'>".
                 $errores['disponible']. 
              "</main>"; 
@@ -115,7 +116,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (isset($_GET['editar'])){
             header("Location: /edit/editarCliente.php?id=".$_GET['editar']."&nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
         }else{
-            header("Location: /create/crearCliente.php?nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
+            header("Location: /cliente/crear/?nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
             exit();
         } 
     }

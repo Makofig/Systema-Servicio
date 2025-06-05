@@ -1,7 +1,9 @@
 <?php
 if (isset($_POST)){
     
-    require_once '../../includes/conexion.php';
+    require_once BASE_PATH.'/includes/conexion.php';
+    $db = getDBConnection(); 
+
     $nuevo_ssid = isset($_POST['nombre']) ? mysqli_real_escape_string($db, $_POST['nombre']) : false;
     $nuevo_frecu = isset($_POST['frecuencia']) ? mysqli_real_escape_string($db, $_POST['frecuencia']) : false;
     $nuevo_address = isset($_POST['ip']) ? mysqli_real_escape_string($db, $_POST['ip']) : false;
@@ -44,8 +46,8 @@ if (isset($_POST)){
         }else{
             $errores['disponible'] = "SE CARGO CORRECTAMENTE - Redireccionando...";
         }
-        header('refresh:3, url=../principal.php');
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+        header('refresh:3, url=/home');
+        require_once (BASE_PATH.'/includes/pagina.php'); 
         echo "<main id='principal' class='bloque-cont'>".
                     $errores['disponible']. 
                  "</main>";       
@@ -53,10 +55,10 @@ if (isset($_POST)){
         if (isset($_GET['editar'])){
             header("refresh:3, url=../edit/editarPoint.php?id=".$_GET['editar']);
         }else{
-            header('refresh:3, url=../create/crearPoint.php');
+            header('refresh:3, url=/point/crear');
         }
         $_SESSION['errores_entradas'] = $errores;
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+        require_once (BASE_PATH.'/includes/pagina.php'); 
         echo "<main id='principal' class='bloque-cont'>".
                 $_SESSION['errores_entradas']. 
              "</main>";  
