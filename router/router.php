@@ -35,6 +35,16 @@ class Router {
             require __DIR__ . '/../src/list/listarDeudores.php';
             return;
         }
+        if (preg_match('#^cliente/editar/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/edit/editarCliente.php';
+            return;
+        }
+        if (preg_match('#^cliente/guardar/([0-9]+)$#', $url, $matches)) {
+            $_GET['editar'] = $matches[1];
+            require __DIR__ . '/../src/save/guardarCliente.php';
+            return;
+        }
         // rutas para capturar los parametros de la URL Plan 
         if (preg_match('#^plan/listar/([0-9]+)$#', $url, $matches)) {
             $_GET['id'] = $matches[1];
@@ -45,6 +55,16 @@ class Router {
         if (preg_match('#^point/contenido/([0-9]+)$#', $url, $matches)) {
             $_GET['id'] = $matches[1];
             require __DIR__ . '/../src/content/contenidoPoint.php';
+            return;
+        }
+        if (preg_match('#^point/editar/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/edit/editarPoint.php';
+            return;
+        }
+        if (preg_match('#^point/guardar/([0-9]+)$#', $url, $matches)) {
+            $_GET['editar'] = $matches[1];
+            require __DIR__ . '/../src/save/guardarPoint.php';
             return;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($this->postRoutes[$path])){

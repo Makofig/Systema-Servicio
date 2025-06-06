@@ -46,10 +46,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($telefono) && !preg_match("/^[0-9]+$/",$telefono)) {
         $telefono_error = "Por favor, ingresa un número de teléfono válido.";
     }
-
     // Validar la dirección
     $direccion = test_input($_POST["direccion"]);
-
     // Si no hay errores, procesar los datos
     if (empty($nombre_error) && empty($apellido_error) && empty($ip_error) && empty($telefono_error)) {
         // Aquí puedes hacer lo que desees con los datos del formulario

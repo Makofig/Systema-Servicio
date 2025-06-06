@@ -1,4 +1,5 @@
 <?php require_once BASE_PATH.'/includes/helper.php'?>
+<?php require_once BASE_PATH.'/includes/conexion.php'?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +16,7 @@
             <img src="./assets/img/logo3.png" alt="Logo de la empresa">
         </div>
         <h2>Inicio de sesión</h2>
+        <?php session_start();?>
         <?php if (isset($_SESSION['error_login'])): ?>
             <p class="error"><?php echo $_SESSION['error_login']; ?></p>
         <?php endif ?>

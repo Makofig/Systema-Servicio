@@ -20,7 +20,7 @@
         <p>Clientes: <?= TotalClienteAP($db, $id_url) ?></p>
         <div>
         <?php if(isset($_SESSION['usuario']['id'])): ?>
-            <button type="button" onclick="location='../edit/editarPoint.php?id=<?=$res_ent['id']?>'" class="boton boton-verde"> 
+            <button type="button" onclick="location='/point/editar/<?=$res_ent['id']?>'" class="boton boton-verde"> 
                 Editar AP
             </button>
             <button type="button" onclick="location='../delet/eliminarPoint.php?id=<?=$res_ent['id']?>'" class="boton boton-azul"> 

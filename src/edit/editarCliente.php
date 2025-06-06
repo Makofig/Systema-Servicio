@@ -1,5 +1,5 @@
 <?php  
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    require_once (BASE_PATH.'/includes/pagina.php');
     $id = $_GET['id'];
     
     $consultaAlt = $db->prepare("SELECT c.*, c.nombre, CONCAT (c.nombre, ' ' , c.apellido) AS cliente FROM cliente c ".
@@ -13,7 +13,7 @@
         $res_ent = mysqli_fetch_assoc($ent_act);
         
     }else{
-        header("Location: ../principal.php");
+        header("Location: /home");
     }
     
 ?>
@@ -25,7 +25,7 @@
            Editar  <?=$res_ent['nombre']?>  
         </p>
         <br/>
-        <form action="../save/guardarCliente.php?editar=<?=$res_ent['id']?>" method="POST">
+        <form action="/cliente/guardar/<?=$res_ent['id']?>" method="POST">
             <section>
                 <label for="nombre">Nombre: </label>
                 <label for="apellido">Apellido: </label>
@@ -56,7 +56,7 @@
                 <label for="direccion">Domicilio: </label>
                 <label for="fecha_inicio">Fecha de inicio:</label>
                 <input type="text" name="direccion" value="<?=$res_ent['direccion']?>"/></>
-                <input type="date" name="fecha_inicio"/>
+                <input type="date" name="fecha_inicio" value="<?=$res_ent['fecha_alta']?>" readonly />
             </section>
             <section>
                 <label for="plan">Plan</label>

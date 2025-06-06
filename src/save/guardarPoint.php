@@ -9,6 +9,7 @@ if (isset($_POST)){
     $nuevo_address = isset($_POST['ip']) ? mysqli_real_escape_string($db, $_POST['ip']) : false;
     $nuevo_local = isset($_POST['local']) ? mysqli_real_escape_string($db, $_POST['local']) : false;
     $errores = array();
+    
     if (!empty($nuevo_ssid && !is_numeric($nuevo_ssid))){
         $nombre_valido = true;
     }else{
@@ -53,7 +54,7 @@ if (isset($_POST)){
                  "</main>";       
     }else{
         if (isset($_GET['editar'])){
-            header("refresh:3, url=../edit/editarPoint.php?id=".$_GET['editar']);
+            header("refresh:3, url=/point/editar/".$_GET['editar']);
         }else{
             header('refresh:3, url=/point/crear');
         }

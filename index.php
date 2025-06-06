@@ -22,8 +22,10 @@ $router->get('cliente/pagado/{pagina}', '/src/list/listarPagado.php');
 $router->get('cliente/contenido/{id}', '/src/content/contenido.php'); 
 $router->get('cliente/deudores/{pagina}', '/src/list/listarDeudores.php');
 $router->get('cliente/deudores/completo', '/src/list/listarDeudoresCompleto.php');
+$router->get('cliente/editar/{id}', '/src/edit/editarCliente.php'); 
 #$router->get('cliente/getClientesByCuota', '/src/list/getClientesByCuota.php'); 
 $router->post('cliente/guardar', '/src/save/guardarCliente.php'); 
+$router->post('cliente/guardar/{editar}', '/src/save/guardarCliente.php'); 
 
 // Plan GET & POST 
 $router->get('plan/crear', '/src/create/crearPlan.php'); 
@@ -36,8 +38,10 @@ $router->post('plan/guardar', '/src/save/guardarPlan.php');
 $router->get('point/crear', '/src/create/crearPoint.php');
 $router->get('point/listar', '/src/list/listarPoint.php');
 $router->get('point/contenido/{id}', '/src/content/contenidoPoint.php'); 
+$router->get('point/editar/{id}', '/src/edit/editarPoint.php'); 
 
 $router->post('point/guardar', '/src/save/guardarPoint.php'); 
+$router->post('point/guardar/{editar}', '/src/save/guardarPoint.php');
 
 // Emitir Cuotas GET & POST 
 $router->get('cuota/emitir', '/src/create/emitirCuota.php');

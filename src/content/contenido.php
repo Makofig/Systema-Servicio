@@ -92,7 +92,7 @@
             <h3><?=$res_ent['nom_cli']?> | <?=$res_ent['ssid']?></h3>
             <div>
             <?php if(isset($_SESSION['usuario']['id'])): ?>
-                <button type="button" onclick="location='../edit/editarCliente?id=<?=$res_ent['id']?>'" class="boton boton-verde"> 
+                <button type="button" onclick="location='/cliente/editar/<?=$res_ent['id']?>'" class="boton boton-verde"> 
                     Editar Cliente
                 </button>
                 <button type="button" onclick="location='../cuotas.php?id=<?=$res_ent['id']?>'" class="boton boton-verde"> 

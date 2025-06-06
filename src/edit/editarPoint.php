@@ -1,5 +1,5 @@
 <?php  
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    require_once (BASE_PATH.'/includes/pagina.php');
     $id = $_GET['id'];
     $consultaAlt = "SELECT * FROM accespoint WHERE id = $id; "; 
     $ent_act = mysqli_query($db, $consultaAlt);  
@@ -7,7 +7,7 @@
         $res_ent = mysqli_fetch_assoc($ent_act);
         
     }else{
-        header("Location: ../principal.php");
+        header("Location: /home");
     } 
 ?>
 <!-- Contenido Principal -->
@@ -18,7 +18,7 @@
            Editar  <?=$res_ent['ssid']?>  
         </p>
         <br/>
-        <form action="../save/guardarPoint.php?editar=<?=$res_ent['id']?>" method="POST">
+        <form action="/point/guardar/<?=$res_ent['id']?>" method="POST">
             <section>
                 <label for="nombre">SSID: </label>
                 <label for="frecuencia">Frecuencia: </label>
