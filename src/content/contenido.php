@@ -95,10 +95,10 @@
                 <button type="button" onclick="location='/cliente/editar/<?=$res_ent['id']?>'" class="boton boton-verde"> 
                     Editar Cliente
                 </button>
-                <button type="button" onclick="location='../cuotas.php?id=<?=$res_ent['id']?>'" class="boton boton-verde"> 
+                <button type="button" onclick="location='/cliente/pagos/<?=$res_ent['id']?>'" class="boton boton-verde"> 
                     Pagos
                 </button>
-                <button type="button" onclick="location='/src/delet/eliminarCliente.php?id=<?=$res_ent['id']?>'" class="boton boton-azul"> 
+                <button type="button" onclick="location='/cliente/eliminar/<?=$res_ent['id']?>'" class="boton boton-azul"> 
                     Eliminar Cliente
                 </button>
             <?php endif;?>
@@ -181,7 +181,7 @@
                     }
                 });
             </script>
-            <p>Promedio <?= ($sum / $mes) ?></p>
+            <p>Promedio <?= number_format(($sum / $mes), 2) ?></p>
         </div> 
     </section>
     

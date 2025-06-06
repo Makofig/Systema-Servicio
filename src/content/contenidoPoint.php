@@ -23,7 +23,7 @@
             <button type="button" onclick="location='/point/editar/<?=$res_ent['id']?>'" class="boton boton-verde"> 
                 Editar AP
             </button>
-            <button type="button" onclick="location='../delet/eliminarPoint.php?id=<?=$res_ent['id']?>'" class="boton boton-azul"> 
+            <button type="button" onclick="location='/point/eliminar/<?=$res_ent['id']?>'" class="boton boton-azul"> 
                 Eliminar AP
             </button>
         <?php endif; ?> 

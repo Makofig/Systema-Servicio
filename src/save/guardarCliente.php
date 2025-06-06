@@ -112,9 +112,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }else{      
         if (isset($_GET['editar'])){
-            header("Location: /edit/editarCliente.php?id=".$_GET['editar']."&nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
+            header("Location: /cliente/editar/".$_GET['editar']."&nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
         }else{
-            header("Location: /cliente/crear/?nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
+            header("Location: /cliente/crear/&nombre_error=$nombre_error&apellido_error=$apellido_error&ip_error=$ip_error&telefono_error=$telefono_error");
             exit();
         } 
     }

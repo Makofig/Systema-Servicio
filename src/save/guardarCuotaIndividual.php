@@ -1,8 +1,10 @@
 <?php
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/helper.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/conexion.php');
+require_once (BASE_PATH.'/includes/helper.php');
+require_once (BASE_PATH.'/includes/conexion.php');
 if (isset($_POST)){
     //RECUPERANDO LOS DATOS DE POST; 
+    $db = getDBConnection(); 
+    
     $id_url = $_POST['id'];
     $mes_url = isset($_POST['cuota']) ? mysqli_real_escape_string($db, $_POST['cuota']) : false;
     $fecha = isset($_POST['fecha']) ? mysqli_real_escape_string($db, $_POST['fecha']) : false;
@@ -47,15 +49,15 @@ if (isset($_POST)){
         }           
     }else{
         $errores['disponible'] = "LA CUOTA YA FUE EMITIDA - Redireccionando..."; 
-        header("refresh:3, url=/create/emitirCuota.php");
-        require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+        header("refresh:3, url=/cuota/emitir/individual/".$id_url);
+        require_once (BASE_PATH.'/includes/pagina.php'); 
         echo "<main id='principal' class='bloque-cont'>".
                 $errores['disponible']. 
              "</main>"; 
          
     }
-header('refresh:3, url=/principal.php');
-require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php'); 
+header('refresh:3, url=/home');
+require_once (BASE_PATH.'/includes/pagina.php'); 
     echo "<main id='principal' class='bloque-cont'>".
             $errores['disponible']. 
          "</main>";

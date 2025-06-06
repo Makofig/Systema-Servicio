@@ -25,6 +25,21 @@ class Router {
             require __DIR__ . '/../src/list/listarPagado.php';
             return;
         }
+        if (preg_match('#^cliente/pagos/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/list/listarCuotasIndividual.php';
+            return;
+        }
+        if (preg_match('#^cliente/pagos/editar/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/edit/editarPago.php';
+            return;
+        }
+        if (preg_match('#^cliente/pagos/guardar/([0-9]+)$#', $url, $matches)) {
+            $_GET['editar'] = $matches[1];
+            require __DIR__ . '/../src/save/guardarPago.php';
+            return;
+        }
         if (preg_match('#^cliente/contenido/([0-9]+)$#', $url, $matches)) {
             $_GET['id'] = $matches[1];
             require __DIR__ . '/../src/content/contenido.php';
@@ -45,10 +60,20 @@ class Router {
             require __DIR__ . '/../src/save/guardarCliente.php';
             return;
         }
+        if (preg_match('#^cliente/eliminar/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/delet/eliminarCliente.php';
+            return;
+        }
         // rutas para capturar los parametros de la URL Plan 
         if (preg_match('#^plan/listar/([0-9]+)$#', $url, $matches)) {
             $_GET['id'] = $matches[1];
             require __DIR__ . '/../src/list/listarPlan.php';
+            return;
+        }
+        if (preg_match('#^plan/guardar/([0-9]+)$#', $url, $matches)) {
+            $_GET['editar'] = $matches[1];
+            require __DIR__ . '/../src/save/guardarPlan.php';
             return;
         }
         // Rutas para capturar los parametros de la URL Access Point 
@@ -65,6 +90,22 @@ class Router {
         if (preg_match('#^point/guardar/([0-9]+)$#', $url, $matches)) {
             $_GET['editar'] = $matches[1];
             require __DIR__ . '/../src/save/guardarPoint.php';
+            return;
+        }
+        if (preg_match('#^point/eliminar/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/delet/eliminarPoint.php';
+            return;
+        }
+        // Rutas para capturar los parametros de la URL Cuota
+        if (preg_match('#^cuota/emitir/individual/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/create/emitirCuotaIndividual.php';
+            return;
+        }
+        if (preg_match('#^cuota/ver/([0-9]+)$#', $url, $matches)) {
+            $_GET['id'] = $matches[1];
+            require __DIR__ . '/../src/list/verCuota.php';
             return;
         }
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($this->postRoutes[$path])){

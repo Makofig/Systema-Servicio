@@ -53,9 +53,22 @@ require_once (BASE_PATH.'/includes/pagina.php');
 <main>
     <?php
 
-        $consulta= "SELECT * FROM pagos WHERE id = $numId"; 
-        $resultEntradas = mysqli_query($db, $consulta);
-        $ent = mysqli_fetch_assoc($resultEntradas);
+        $sql= "SELECT * FROM pagos WHERE id = ?"; 
+        $consulta = $db->prepare($sql);
+        $consulta->bind_param("i", $numId);
+        $consulta->execute();
+        $resultPago = $consulta->get_result();
+
+        if ($resultPago && $resultPago->num_rows === 1){
+            $ent = $resultPago->fetch_assoc();
+            
+        }else {
+            header("refresh:3, url=/cliente/pagos/".$ent['id_cliente']);  
+            echo "<main id='principal' class='bloque-cont'>".
+                    $errores['disponible']. 
+                "</main>"; 
+            exit();
+        }
         
         if ($ent['estado'] == false){
             $deuda = 'Adeudado';

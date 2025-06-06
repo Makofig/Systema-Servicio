@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');?> 
+<?php require_once (BASE_PATH.'/includes/pagina.php');?> 
 
 <!-- Contenido Principal -->
 
@@ -7,14 +7,23 @@
     <?php 
         if (isset($_GET['id'])):
             $id_c = $_GET['id'];
-            $consultaPla = "SELECT id, id_cliente, costo, num_cuotas FROM pagos WHERE id = $id_c";
-            $result_plan = mysqli_query($db, $consultaPla);
-            $cuota = mysqli_fetch_assoc($result_plan);
-            $client = mysqli_fetch_assoc(clientId($db, $cuota['id_cliente']));
+
+            $sql = "SELECT id, id_cliente, costo, num_cuotas FROM pagos WHERE id = ?";
+            $stmt = $db->prepare($sql);
+            $stmt->bind_param("i", $id_c);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result && $result->num_rows === 1){
+                $cuota = $result->fetch_assoc();
+
+                $client = mysqli_fetch_assoc(clientId($db, $cuota['id_cliente']));
+            }
+           
            
     ?>
     <h2><?=$client['apellido'].' '.$client['nombre']?></h2>
-    <form action="../save/guardarPago.php?editar=<?=$cuota['id']?>" method="POST" enctype="multipart/form-data">
+    <form action="/cliente/pagos/guardar/<?=$cuota['id']?>" method="POST" enctype="multipart/form-data">
         <section>
             <label for="costo">Costo</label>
             <label for="entrega">Entrego</label>
@@ -43,6 +52,7 @@
         
     </form>
     <?php
+        $stmt->close(); 
         endif;
     ?>
 </main>

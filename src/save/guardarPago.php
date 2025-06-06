@@ -1,5 +1,7 @@
 <?php 
-include '../../includes/conexion.php';
+include BASE_PATH.'/includes/conexion.php';
+
+$db = getDBConnection(); 
 
 $id = $_GET['editar']; 
 $costo = $_POST['costo'];
@@ -13,9 +15,11 @@ $typeImage = $image['type'];
 $abonado = $_POST['entrega']; 
 
 // CONSULTA PARA ACCEDER A LAS IMAGENES GUARDADAS 
-$consultaPla = "SELECT image, image2, comentario FROM pagos WHERE id = $id";
+$consultaPla = "SELECT image, image2, comentario, id_cliente FROM pagos WHERE id = $id";
 $result_plan = mysqli_query($db, $consultaPla);
 $cuota = mysqli_fetch_assoc($result_plan);
+
+$id_cliente = $cuota['id_cliente'];
 
 if ($cuota['image'] != null){
     $nameImage = $cuota['image'];
@@ -51,17 +55,17 @@ try {
         throw new Exception("Error al actualizar la cuota: ". $consult->error);  
     }
         
-    header('refresh:3, url= /list/listarDeudoresCompleto.php');
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    header('refresh:3, url= /cliente/pagos/'.$id_cliente);
+    require_once (BASE_PATH.'/includes/pagina.php');
     echo "<main id='principal' class='bloque-cont'>".
             $errores['disponible']. 
          "</main>";
     
 } catch (Exception $ex) {
-    header('refresh:3, url= guardarPago.php');
-    require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');
+    header('refresh:3, url= /cliente/pagos/guardar/'.$id);
+    require_once (BASE_PATH.'/includes/pagina.php');
     echo "<main id='principal' class='bloque-cont'>".
-            $e->getMessage(). 
+            $ex->getMessage(). 
          "</main>";
 }
 

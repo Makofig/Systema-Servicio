@@ -1,4 +1,4 @@
-<?php require_once ($_SERVER['DOCUMENT_ROOT'].'/includes/pagina.php');?>
+<?php require_once (BASE_PATH.'/includes/pagina.php');?>
 <style>
     main section{
         display: flex; 
@@ -51,7 +51,7 @@
     <!-- CONTENIDO DEL MAIN -->
     <section>
         <h2><?= $client['apellido'].' '.$client['nombre'] ?></h2>
-        <h3 class="primary"><a href="/create/emitirCuotaIndividual.php?id=<?=$id_url?>">Emitir cuota</a></h3>
+        <h3 class="primary"><a href="/cuota/emitir/individual/<?=$id_url?>">Emitir cuota</a></h3>
         <table>
             <thead>
                 <tr>
@@ -81,8 +81,8 @@
                 <td>$<?= number_format($ent['abonado'], 2)?></td>
                 <td><?=$ent['fecha_emision']?></td>
                 <td class="<?=$class?>"><?=$deuda?></td>
-                <td class='primary'><a href="/edit/editPago.php?id=<?=$ent['id']?>" class="<?=$disabled?>">Editar</a></td>  
-                <td class='primary'><a href="/list/verCuota.php?id=<?=$ent['id']?>" >Ver</a></td>
+                <td class='primary'><a href="/cliente/pagos/editar/<?=$ent['id']?>" class="<?=$disabled?>">Editar</a></td>  
+                <td class='primary'><a href="/cuota/ver/<?=$ent['id']?>" >Ver</a></td>
             </tr>    
         <?php endwhile;?>        
             </tbody>
