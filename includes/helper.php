@@ -201,6 +201,33 @@ function TotalClienteAP($db,$id_url){
     }
     return $contCA;
 }
+// TOTAL CLIENTE POR PLAN 
+function totalClientesPlan($db, $id_plan) {
+    $total = 0;
+
+    // Validación básica del parámetro
+    if (!is_numeric($id_plan)) {
+        return 0;
+    }
+
+    // Consulta segura con prepared statement
+    $sql = "SELECT COUNT(*) as total FROM cliente WHERE id_plan = ?";
+    $stmt = $db->prepare($sql);
+
+    if ($stmt) {
+        $stmt->bind_param("i", $id_plan);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $total = (int) $row['total'];
+        }
+
+        $stmt->close();
+    }
+
+    return $total;
+}
 // CONTROLA QUE LA CUOTA NO ESTE EMITIDA; 
 function ControlCuota($db, $mes_url, $year_url){
     $mes = $mes_url;

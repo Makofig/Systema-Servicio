@@ -37,7 +37,8 @@ $router->post('cliente/pagos/guardar/{editar}', '/src/save/guardarPago.php');
 // Plan GET & POST 
 $router->get('plan/crear', '/src/create/crearPlan.php'); 
 $router->get('plan/editar', '/src/edit/editarPlan.php');
-$router->get('plan/listar/{id}', '/src/list/listarPlan.php');
+$router->get('plan/listar/clientes/{id}', '/src/list/listarPlanClientes.php');
+$router->get('plan/listar', '/src/list/listarPlan.php');
 
 $router->post('plan/guardar', '/src/save/guardarPlan.php'); 
 $router->post('plan/guardar/{editar}', '/src/save/guardarPlan.php'); 

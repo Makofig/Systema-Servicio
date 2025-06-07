@@ -66,9 +66,9 @@ class Router {
             return;
         }
         // rutas para capturar los parametros de la URL Plan 
-        if (preg_match('#^plan/listar/([0-9]+)$#', $url, $matches)) {
+        if (preg_match('#^plan/listar/clientes/([0-9]+)$#', $url, $matches)) {
             $_GET['id'] = $matches[1];
-            require __DIR__ . '/../src/list/listarPlan.php';
+            require __DIR__ . '/../src/list/listarPlanClientes.php';
             return;
         }
         if (preg_match('#^plan/guardar/([0-9]+)$#', $url, $matches)) {

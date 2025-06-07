@@ -36,21 +36,9 @@
             <ul>
                 <li><a href="/plan/editar">Editar Plan</a></li>
             </ul>
-            <?php 
-                $consulta = "SELECT * FROM plan;";
-                $result = mysqli_query($db, $consulta);
-                if(!empty($result)): 
-                    while ($cat = mysqli_fetch_assoc($result)): 
-            ?>   
             <ul>
-                <li>
-                    <a href="/plan/listar/<?=$cat['id']?>"><?=$cat['nombre']?></a>
-                </li>
-            </ul>    
-            <?php 
-                    endwhile;
-                endif; 
-            ?> 
+                <li><a href="/plan/listar">Listar Plan</a></li>
+            </ul>   
             </div>    
         </details>    
         <details>
