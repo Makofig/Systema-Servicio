@@ -9,7 +9,7 @@
     <div>
         <a href="/plan/listar/clientes/<?=$ent['id']?>">    
             <h2><?=$ent['nombre']?></h2>  
-            <h4 class="fecha"><?=$ent['costo'];?></h4>
+            <h4 class="fecha"><?=number_format($ent['costo'], 2);?></h4>
             <h3>Clientes: <?= totalClientesPlan($db,$ent['id'])?></h3>  
         </a>             
     </div>

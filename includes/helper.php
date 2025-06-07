@@ -84,7 +84,7 @@ function mostrarErrores($errores, $campo){
     } 
     return $alerta; 
 }
-
+// BORRAR ERRORES DE SESION;
 function borrarErrores(){
     if (isset($_SESSION['errores'])) {
         unset($_SESSION['errores']);
@@ -97,8 +97,7 @@ function borrarErrores(){
     }
     #$_SESSION['errores'] = null;
     #$_SESSION['completo'] = null;
-    #$_SESSION['errores_entradas'] = null; 
-//    return session_unset(); 
+    #$_SESSION['errores_entradas'] = null;  
     return true;
 }
 
@@ -110,49 +109,34 @@ function BorrarSesiones (){
 }
 // TOTAL DE LA RECAUDACIÓN EN COSTOS DE LOS PLANES; 
 function Total($db){
-    $sum = 0;
-    $result = array();
-    $sql = "SELECT c.*, p.costo FROM cliente c ".
-           "INNER JOIN plan p ON c.id_plan = p.id; ";
-    $consult = mysqli_query($db, $sql);
-//    $result = mysqli_fetch_assoc($consult);
-    while ($result = mysqli_fetch_assoc($consult)){
-        $sum = $result['costo'] + $sum; 
-    }
-    return $sum;
-}
-// TOTAL DE LOS COSTOS DE LOS PLANES, CUYOS CLIENTES NO HALLAN PAGADO; 
-function deuda($db){
-    $costo = Total($db);
-    $sum = 0;
-    $result = array();
-    $mes = getdate();
-    $mes1 = $mes['mon'];
-    $sql = "SELECT p.*, c.id FROM pagos p ".
-                "INNER JOIN cuotas c ON c.id = p.id_cuota ".
-                "WHERE p.num_cuotas = $mes1 ";
-    $consult = mysqli_query($db, $sql);
-    while ($result = mysqli_fetch_assoc($consult)){
-        $sum = $result['abonado'] + $sum;
-    }
-    $total = $costo - $sum;
-    return $total;
+    $sql = "SELECT SUM(p.costo) as total 
+            FROM cliente c 
+            INNER JOIN plan p ON c.id_plan = p.id";
+
+    $result = $db->query($sql);
+    $row = $result ? $result->fetch_assoc() : ['total' => 0];
+    return (float) $row['total'];
 }
 // TOTAL DE LOS COSTOS, CUYOS CLIENTES HALLAN PAGADO Y SEAN DEL MES ACTUAL;
 function Recaudado($db){
-    $costo = Total($db);
-    $sum = 0;
-    $result = array();
-    $mes = getdate();
-    $mes1 = $mes['mon'];
-    $sql = "SELECT p.*, c.id FROM pagos p ".
-                "INNER JOIN cuotas c ON c.id = p.id_cuota ".
-                "WHERE p.num_cuotas = $mes1 ";
-    $consult = mysqli_query($db, $sql);
-    while ($result = mysqli_fetch_assoc($consult)){
-        $sum = $result['abonado'] + $sum;
-    }
-    return $sum;
+    $mesActual = date('n');
+    $sql = "SELECT SUM(p.abonado) as total 
+            FROM pagos p 
+            INNER JOIN cuotas c ON c.id = p.id_cuota 
+            WHERE p.num_cuotas = ?";
+
+    $stmt = $db->prepare($sql);
+    $stmt->bind_param("i", $mesActual);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result ? $result->fetch_assoc() : ['total' => 0];
+    return (float) $row['total'];
+}
+// TOTAL DE LOS COSTOS DE LOS PLANES, CUYOS CLIENTES NO HALLAN PAGADO; 
+function deuda($db){
+    $total = Total($db);
+    $abonado = Recaudado($db);
+    return max(0, $total - $abonado); // evita valores negativos
 }
 // TOTAL DE CLIENTES EN EL SISTEMA;
 function ClienteTotal($db){
@@ -189,17 +173,29 @@ function ApTotal($db){
     return implode($contap);
 }
 // TOTAL DE CLIENTES POR AP; 
-function TotalClienteAP($db,$id_url){
-    $contCA = 0;
-    $resultClAp = array();
-    $sql = "SELECT id_point FROM cliente WHERE id_point = $id_url; ";
-    $consultaClAp = mysqli_query($db, $sql);
-    while ($resultClAp = mysqli_fetch_assoc($consultaClAp)){
-        if($resultClAp['id_point'] = $id_url){
-            $contCA = $contCA + 1; 
-        }
+function TotalClienteAP($db, $id_url){
+    $total = 0;
+    // Validación básica del parámetro
+    if (!is_numeric($id_url)) {
+        return 0;
     }
-    return $contCA;
+
+    $sql = "SELECT COUNT(*) as total FROM cliente WHERE id_point = ?"; 
+    $stmt = $db->prepare($sql);
+
+    if ($stmt) {
+        $stmt->bind_param("i", $id_url);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($row = $result->fetch_assoc()) {
+            $total = (int) $row['total'];
+        }
+
+        $stmt->close();
+    }
+   
+    return $total;
 }
 // TOTAL CLIENTE POR PLAN 
 function totalClientesPlan($db, $id_plan) {
@@ -251,7 +247,7 @@ function ControlCuota($db, $mes_url, $year_url){
     }
     return $bandera;  
 }
-
+// CONTROLA QUE LA CUOTA NO ESTE EMITIDA POR ID DE CLIENTE;
 function ControlCuotaId($db, $mes_url, $year_url, $id){
     $mes = $mes_url;
     $año = $year_url; 
@@ -274,7 +270,7 @@ function ControlCuotaId($db, $mes_url, $year_url, $id){
     }
     return $bandera;  
 }
-
+// GENERA LAS CUOTAS PARA TODOS LOS CLIENTES;
 function GenerarCuotas($db, $numCuota, $id_cuot){
     $id_cuota = $id_cuot; 
     $sqlcl = "SELECT c.*, p.costo AS cos_pl FROM cliente c ".
@@ -286,9 +282,9 @@ function GenerarCuotas($db, $numCuota, $id_cuot){
         $sqlpa = "INSERT INTO pagos VALUE(NULL, '$id_cl', '$id_cuota', '$numCuota', CURDATE(), '$cos_pl', '0', '0', CURDATE(), NULL, NULL, NULL);";
         $guardar = mysqli_query($db, $sqlpa);
     }  
-    header ('Location: ../src/principal.php');
+    header ('Location: /home');
 }
-
+// GENERA LAS CUOTAS PARA UN CLIENTE EN PARTICULAR;
 function GenerarCuotasId($db, $numCuota, $id_cuot, $id){
     $id_cuota = $id_cuot; 
     $sqlcl = "SELECT c.*, p.costo AS cos_pl FROM cliente c ".
@@ -302,7 +298,7 @@ function GenerarCuotasId($db, $numCuota, $id_cuot, $id){
         $guardar = mysqli_query($db, $sqlpa);
     }  
 }
-
+// CONTROLA SI UN CLIENTE TIENE DEUDA;
 function clientConDeudas($db, $id){
     $consult = $db->prepare("SELECT estado FROM pagos WHERE id_cliente = ? and estado = 0;");
     $consult->bind_param("s", $id);
