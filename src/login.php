@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no,
           initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <title>Inicio de sesión</title>
+    <link rel="icon" type="image/png" href="/assets/img/logo3.png" />
     <link rel="stylesheet" type="text/css" href="./assets/css/inicio.css"/>
 </head>
 <body>

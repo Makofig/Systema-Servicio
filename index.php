@@ -64,7 +64,8 @@ $router->post('cuota/individual/guardar', '/src/save/guardarCuotaIndividual.php'
 $router->get('estadisticas', '/src/estadistica.php');
 
 // Editar Datos Usuario 
-$router->get('datos/editar', '/src/edit/editDatos.php');
+$router->get('usuario/datos/editar', '/src/edit/editDatos.php');
+$router->post('usuario/datos/actualizar', '/src/save/actualizarUsuario.php'); 
 
 $router->post('authenticate', '/src/authenticate.php');
 $router->post('registro', '/src/registro.php'); 

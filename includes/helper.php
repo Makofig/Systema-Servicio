@@ -86,9 +86,18 @@ function mostrarErrores($errores, $campo){
 }
 
 function borrarErrores(){
-    $_SESSION['errores'] = null;
-    $_SESSION['completo'] = null;
-    $_SESSION['errores_entradas'] = null; 
+    if (isset($_SESSION['errores'])) {
+        unset($_SESSION['errores']);
+    }
+    if (isset($_SESSION['completo'])) {
+        unset($_SESSION['completo']);
+    }
+    if (isset($_SESSION['errores_entradas'])) {
+        unset($_SESSION['errores_entradas']);
+    }
+    #$_SESSION['errores'] = null;
+    #$_SESSION['completo'] = null;
+    #$_SESSION['errores_entradas'] = null; 
 //    return session_unset(); 
     return true;
 }

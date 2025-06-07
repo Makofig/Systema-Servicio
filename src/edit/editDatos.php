@@ -1,4 +1,8 @@
-<?php require_once (BASE_PATH.'/includes/pagina.php');?>   
+<?php
+session_start();  
+
+require_once (BASE_PATH.'/includes/pagina.php');
+?>   
 <main class="container-main">
 <!-- Contenido Principal -->
     <div id="container">
@@ -12,7 +16,7 @@
                 <?=$_SESSION['errores']['registro'];?>
             </div> 
         <?php endif;?>
-        <form action="../actualizarUsuario.php" method="POST">
+        <form action="/usuario/datos/actualizar" method="POST">
 
                 <label for="nombre">Nombre</label>
                 <input type="text" name="nombre" value="<?=$_SESSION['usuario']['nombre']?>"/>

@@ -71,7 +71,7 @@
             <li class="border"><a href="/estadisticas">Estadisticas</a></li>
         </ul>
         <ul>
-            <li class="border"><a href="/datos/editar">Mis datos</a></li>
+            <li class="border"><a href="/usuario/datos/editar">Mis datos</a></li>
         </ul> 
         <button type="button" onclick="location='/logout'" class="boton boton-azul"> 
             Salir

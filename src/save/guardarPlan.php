@@ -40,7 +40,7 @@ if (isset($_POST)){
     }else{
         $_SESSION['errores_entradas'] = $errores;   
         if (isset($_GET['editar'])){
-            header("refresh:3, url=/edit/editCuota.php?id=".$_GET['editar']);
+            header("refresh:3, url=/plan/editar");
         }else{
             header('refresh:3, url=/plan/crear');
         }
