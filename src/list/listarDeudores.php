@@ -46,7 +46,7 @@
             <?php endif; ?>
         <?php endfor; ?>
         <?php if ($_GET['pagina'] < $TotalPaginas) : ?>
-                <a href="/cliente/deudores<?php echo $_GET['pagina'] + 1; ?>">Siguiente</a>
+                <a href="/cliente/deudores/<?php echo $_GET['pagina'] + 1; ?>">Siguiente</a>
         <?php endif; ?>
     </footer>
     <?php endif;?>

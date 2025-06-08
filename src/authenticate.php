@@ -5,10 +5,7 @@
     // recoger los datos del formulario para comparar
     //global $db;
     $db = getDBConnection(); 
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        var_dump('Sesión no iniciada');
-        exit;
-    }
+   
     if (isset($_POST)){
         if (isset($_SESSION['error_login'])){
             unset($_SESSION['error_login']);
@@ -23,7 +20,7 @@
         $stmt->bind_param("s", $email);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+   
         if ($result && $result->num_rows === 1){
             $usuario = $result->fetch_assoc();
             //comprobar la contraseña

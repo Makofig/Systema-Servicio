@@ -43,10 +43,22 @@
 <main>
     <?php 
     $id_url = $_GET['id'];
-    $consulta= "SELECT * FROM pagos WHERE id_cliente = $id_url ORDER BY(num_cuotas);"; 
-    $resultEntradas = mysqli_query($db, $consulta);
+    $sql = "SELECT * FROM pagos "
+        ."WHERE id_cliente = ? "
+        ."GROUP BY YEAR(fecha_emision), num_cuotas "
+        ."ORDER BY YEAR(fecha_emision) DESC, num_cuotas DESC"; 
+    $sqlO = "SELECT p.*, CONCAT(YEAR(p.fecha_emision), '-', LPAD(p.num_cuotas, 2, '0')) AS periodo "
+            ."FROM pagos p "
+            ."WHERE p.id_cliente = ? "
+            ."ORDER BY YEAR(p.fecha_emision) DESC, p.num_cuotas DESC ";
+    $consultaEntradas = $db->prepare($sqlO);
+    $consultaEntradas->bind_param("i", $id_url);
+    $consultaEntradas->execute();
+    $resultEntradas = $consultaEntradas->get_result();
+    
     $result = clientId($db, $id_url);
     $client = mysqli_fetch_assoc($result);
+    
     ?>
     <!-- CONTENIDO DEL MAIN -->
     <section>
@@ -55,7 +67,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>N° Cuota</th>
+                    <th>N° Cuota - Periodo</th>
                     <th>Total</th>
                     <th>Entregado</th>
                     <th>Fecha de Emisión</th>
@@ -76,7 +88,7 @@
             } 
         ?>       
             <tr>    
-                <td><?=$ent['num_cuotas']?></td>
+                <td><?=$ent['num_cuotas'] ."&nbsp;&nbsp;&nbsp;&nbsp;&nbsp".$ent['periodo'] ?></td>
                 <td>$<?= number_format($ent['costo'], 2)?></td>
                 <td>$<?= number_format($ent['abonado'], 2)?></td>
                 <td><?=$ent['fecha_emision']?></td>
