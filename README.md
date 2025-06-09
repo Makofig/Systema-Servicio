@@ -12,6 +12,20 @@ Este proyecto es una solución web desarrollada en **PHP** para la gestión inte
 - 🔐 Autenticación de usuarios con manejo de sesiones
 - 🌐 Interfaz con HTML y CSS
 
+## Demo 
+
+### 🧑 Pantalla de Login 
+![Login](resources/login.jpg)
+
+### 📦 Editar  
+![Editar](resources/editar.jpg)
+
+### 🌐 Inicio
+![Inicio](resources/inicio.jpg)
+
+### 📊 Estadísticas de ventas
+![Estadísticas](resources/estadisticas.jpg)
+
 ## ⚙️ Tecnologías Utilizadas
 
 - **PHP** como lenguaje principal del servidor
