@@ -8,15 +8,11 @@ require_once (BASE_PATH.'/includes/pagina.php');
     .bar-up{
         display: none;
     }
-    main{
-        position: relative;
-        top: -230px; 
-    }
     main section{
         display: flex; 
         flex-direction: column;
         width: 98%;
-        height: 635px; 
+        height: 540px; 
         gap: 0.8rem 0;
         align-items: center;
         background:#c3c3c3;

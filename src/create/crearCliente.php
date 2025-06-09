@@ -12,11 +12,11 @@
         <form action="/cliente/guardar" method="POST">
             <section>
                 <label for="nombre">Nombre: </label>
-                <label for="apellido">Apellido: </label>
                 <input type="text" name="nombre" required/>
                 <?php if (isset($_GET['nombre_error'])) :?>
                     <p class="error"><?php echo $_GET['nombre_error']; ?></p>
                 <?php endif ?>
+                <label for="apellido">Apellido: </label>
                 <input type="text" name="apellido" required/>
                 <?php if (isset($_GET['apellido_error'])) :?>
                     <p class="error"><?php echo $_GET['apellido_error']; ?></p>
@@ -24,11 +24,11 @@
             </section>                
             <section>
                 <label for="ip">Dirección IP: </label>
-                <label for="telefono">N° de Telefono: </label>
                 <input type="text" name="ip"/>
                 <?php if (isset($_GET['ip_error'])) :?>
                     <p class="error"><?php echo $_GET['ip_error']; ?></p>
                 <?php endif ?>
+                <label for="telefono">N° de Telefono: </label>
                 <input type="tel" name="telefono"/>
                 <?php if (isset($_GET['telefono_error'])) :?>
                     <p class="error"><?php echo $_GET['telefono_error']; ?></p>
@@ -41,7 +41,6 @@
             <?php endif ?>
             <section>
                 <label for="plan">Plan</label>
-                <label for="ap">AP</label>
                 <select class="estilo-select" name="plan">
                     <?php 
                         $consulta = "SELECT * FROM plan;";
@@ -61,7 +60,7 @@
                     <p class="error"><?php echo $_SESSION['errores_entradas']; ?></p>
                 <?php endif ?>
                 <!--SELECT ACCESS POINT-->
-            
+                <label for="ap">AP</label>    
                 <select class="estilo-select" name="ap">
                     <?php 
                         $ban = true; 

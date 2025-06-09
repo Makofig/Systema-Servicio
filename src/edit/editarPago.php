@@ -26,25 +26,25 @@
     <form action="/cliente/pagos/guardar/<?=$cuota['id']?>" method="POST" enctype="multipart/form-data">
         <section>
             <label for="costo">Costo</label>
-            <label for="entrega">Entrego</label>
             <input type="text" name="costo" value="<?=$cuota['costo']?>" readonly="" title="Costo De Cuota"/>
+            <label for="entrega">Entrego</label>
             <input type="text" name="entrega" title="Valor De Entrega"/>
         </section>    
         
         <section>
             <label for="cuota">N° de Cuota</label>
-            <label for="fecha">Fecha de Pago</label>   
             <input name="cuota" type="number" readonly="" required="" value="<?=$cuota['num_cuotas']?>" /> 
+            <label for="fecha">Fecha de Pago</label>  
             <input type="date" class="custom-input" name="fecha" required="" />
         </section>
                     
         <label for="coment">Comentario</label>
         <textarea name="coment" maxlength="255" placeholder="Ingrese el comentario..."></textarea>
         
-        <section>
+        <section class="ticket">
             <label for="image">Ticket 1</label>
-            <label for="image2">Ticket 2</label>
             <input type="file" name="image" title="Ticket 1" /> 
+            <label for="image2">Ticket 2</label>
             <input type="file" name="image2" title="Ticket 2" />
         </section>
         
