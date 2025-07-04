@@ -69,20 +69,38 @@
    
 </style>
 <main>
+    <select name="year" id="yearSelect" class="estilo-select">
+            <option value = "0">Seleccione un año</option>
+            <?php
+            // Obtener los años disponibles si repetir
+            $consulta = $db->prepare("
+                SELECT DISTINCT YEAR(fecha_emision) AS year 
+                FROM cuotas 
+                ORDER BY year DESC
+            ");
+            $consulta->execute();
+            $result = $consulta->get_result();
+
+            $añoSeleccionado = $_GET['year'] ?? 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $year = $row['year'];
+                $selected = ($añoSeleccionado == $year) ? 'selected' : '';
+                echo "<option value=\"$year\" $selected>$year</option>";
+            }
+            ?>
+    </select>
     <div class="contenedor">
         <?php 
             $db = getDBConnection();
-            /*$fecha = getdate();
-            $mes = $fecha['mon'];
-            var_dump($mes); 
-            for ($i = 1; $i <= $mes; $i++){
-                echo $i;
-
-            }*/
+            $fecha = getdate();
+            
+            // Si existe 'year' en la URL, lo usamos. Si no, usamos el año actual.
+            $year = isset($_GET['year']) ? intval($_GET['year']) : $fecha['year'];
             /* DATOS PARA LA GRAFICA CIRCULAR */
            
-            $totalAbonado = sumaAbonados($db); 
-            $totalCompleto = sumaCostos($db); 
+            $totalAbonado = sumaAbonados($db, $year); 
+            $totalCompleto = sumaCostos($db, $year); 
             $totalAdeudado = $totalCompleto - $totalAbonado; 
             
             $porcentajeAbonado = ($totalAbonado * 100)/$totalCompleto; 
@@ -93,23 +111,27 @@
             $fecha = getdate();
             $mes = $fecha['mon']; 
             
-            $reporte = tablaClientCuotas($db, $mes);
-            
-            /* CORRECCIÓN DEL ARRAY PARA MOSTRAR LOS DATOS EN LA GRAFICA */
-            $array = array();
-            for ($j = 0; $j < 4; $j++){
-                for ($i = 0; $i < $mes; $i++){
-                    $array[$i] = $reporte[$i+1][$j];
+            $reporte = tablaClientCuotas($db, $mes, $year);
+            /* ORGANIZAR LOS DATOS POR CATEGORÍA */
+            $correcto = [
+                'pago_temprano'    => [],
+                'pago_intermedio'  => [],
+                'pago_tardio'      => [],
+                'deuda'            => []
+            ];
+
+            for ($i = 1; $i <= $mes; $i++) {
+                foreach ($correcto as $key => &$array) {
+                    $array[] = $reporte[$i][$key] ?? 0;
                 }
-                $correcto[$j+1] = $array; 
-                $array = [];
-            } 
+            }
             
             $meses = convertMes($mes); 
         ?>
         <div class="bloque color-e1"><span>Total Abonado: $<?=number_format($totalAbonado, 2) ?></span></div>
         <div class="bloque color-e3"><span>Total Adeudado: $<?=number_format($totalAdeudado, 2) ?></span></div>
         <div class="bloque color-e4"><span>Total: $<?=number_format($totalCompleto, 2) ?></span></div>    
+        
         <div class="grahp color-e5">
             <canvas id="grafica"></canvas>
             <script type="text/javascript">
@@ -145,15 +167,7 @@
                 });
             </script>
         </div>
-        <!--
-        <div class="bloque color-e4">
-            <?php
-                foreach ($meses as $index => $valor):
-            ?>
-                <span>Total-Adeudados:<?=$valor?> - <?=json_encode($correcto[4][$index])?></span>
-            <?php endforeach;?>    
-        </div>
-        -->
+        
         <!--GRAFICA LINEAL-->
         <div class="grahp color-e5">
             <canvas id="graficaLineal"></canvas>
@@ -164,30 +178,30 @@
                 const etiquetasLineal = <?php echo json_encode($meses) ?> 
                 // Podemos tener varios conjuntos de datos
 
-                const datosVentas2018 = {
+                const datasetPagoTemprano = {
                     label: "10 Días",
-                    data: <?php echo json_encode($correcto[1]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['pago_temprano']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(27, 156, 133, 0.2)',// Color de fondo
                     borderColor: 'rgba(27, 156, 133, 1)',// Color del borde
                     borderWidth: 1,// Ancho del borde
                 };
-                const datosVentas2019 = {
+                const datasetPagoIntermedio = {
                     label: "Días 10 - 20",
-                    data: <?php echo json_encode($correcto[2]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['pago_intermedio']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(247, 208, 96, 0.2)',// Color de fondo
                     borderColor: 'rgba(247, 208, 96, 1)',// Color del borde
                     borderWidth: 1,// Ancho del borde
                 };
-                const datosVentas2020 = {
+                const datasetPagoTardio = {
                     label: "Días > 20",
-                    data: <?php echo json_encode($correcto[3]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['pago_tardio']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(255, 0, 96, 0.2)', // Color de fondo
                     borderColor: 'rgba(255, 0, 96, 1)', // Color del borde
                     borderWidth: 1,// Ancho del borde
                 };
-                const datosVentas2021 = {
+                const datasetNoAbonados = {
                     label: "No-abonados",
-                    data: <?php echo json_encode($correcto[4]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['deuda']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(10, 10, 10, 0.2)',// Color de fondo
                     borderColor: 'rgba(10, 10, 10, 1)',// Color del borde
                     borderWidth: 1,// Ancho del borde
@@ -198,10 +212,10 @@
                     data: {
                         labels: etiquetasLineal,
                         datasets: [
-                            datosVentas2018,
-                            datosVentas2019,
-                            datosVentas2020,
-                            datosVentas2021,
+                            datasetPagoTemprano,
+                            datasetPagoIntermedio,
+                            datasetPagoTardio,
+                            datasetNoAbonados,
                             // Aquí más datos...
                         ]
                     },
@@ -219,3 +233,13 @@
         </div>    
     </div>
 </main>
+<script>
+    document.getElementById('yearSelect').addEventListener('change', function () {
+        const selectedYear = this.value;
+        if (selectedYear != "0") {
+            const url = new URL(window.location.href);
+            url.searchParams.set('year', selectedYear);
+            window.location.href = url.toString();
+        }
+    });
+</script>

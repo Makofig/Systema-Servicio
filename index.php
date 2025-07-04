@@ -11,6 +11,7 @@ $router->get('login', '/src/login.php');
 $router->get('formulario', '/src/formulario.php'); 
 $router->get('logout', '/src/cerrar.php'); 
 $router->get('home', '/src/principal.php'); 
+$router->get('home/{year}', '/src/principal.php'); // Para manejar el año en la URL
 
 // Buscar 
 $router->post('buscar', '/src/buscar.php');
@@ -63,6 +64,7 @@ $router->post('cuota/individual/guardar', '/src/save/guardarCuotaIndividual.php'
 
 // Estadisticas
 $router->get('estadisticas', '/src/estadistica.php');
+$router->get('estadisticas/{year}', '/src/estadistica.php'); // Para manejar el año en la URL
 
 // Editar Datos Usuario 
 $router->get('usuario/datos/editar', '/src/edit/editDatos.php');

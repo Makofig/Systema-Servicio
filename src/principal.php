@@ -70,18 +70,23 @@
         /* DATOS PARA LA GRAFICA LINEAL */
         $fecha = getdate();
         $mes = $fecha['mon']; 
+        // Si existe 'year' en la URL, lo usamos. Si no, usamos el año actual.
+        $year = isset($_GET['year']) ? intval($_GET['year']) : $fecha['year'];
+        $reporte = tablaClientCuotasCosto($db, $mes, $year);
 
-        $reporte = tablaClientCuotasCosto($db, $mes);
+        /* ORGANIZAR LOS DATOS POR CATEGORÍA */
+        $correcto = [
+            'pago_temprano'    => [],
+            'pago_intermedio'  => [],
+            'pago_tardio'      => [],
+            'deuda'            => []
+        ];
 
-        /* CORRECCIÓN DEL ARRAY PARA MOSTRAR LOS DATOS EN LA GRAFICA */
-        $array = array();
-        for ($j = 0; $j < 4; $j++){
-            for ($i = 0; $i < $mes; $i++){
-                $array[$i] = $reporte[$i+1][$j];
+        for ($i = 1; $i <= $mes; $i++) {
+            foreach ($correcto as $key => &$array) {
+                $array[] = $reporte[$i][$key] ?? 0;
             }
-            $correcto[$j+1] = $array; 
-            $array = [];
-        } 
+        }
 
         $meses = convertMes($mes); 
         
@@ -102,40 +107,53 @@
                     </tr>
                 </thead>
                 <tbody>
-            <?php   
-                $cont = 0;  
-                $reco = $mes -1; 
-                while ($cont <= $reco) :  
-                                             
-            ?>       
-                <tr>    
-                    <td><?= ($meses[$cont]);?></td>
-                    <td class="color-1"><strong><?="$". number_format(json_encode($correcto[1][$cont]), 2);?></strong></td>
-                    <td class="color-4"><strong><?="$". number_format(json_encode($correcto[2][$cont]), 2);?></strong></td>
-                    <td class="color-3"><strong><?="$". number_format(json_encode($correcto[3][$cont]), 2);?></strong></td>
-                    <td><?="$". number_format(json_encode($correcto[4][$cont]), 2);?></td>
-                    <!--<td class='primary'><a href="./details/detailClient.php?id=<?="Hola"?>">Detalles</a></td>-->   
-                </tr>    
-            <?php $cont = $cont +1;  endwhile;?>        
+                <?php for ($i = 0; $i < $mes; $i++): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($meses[$i]) ?></td>
+                        <td class="color-1">
+                            <strong><?= "$" . number_format($correcto['pago_temprano'][$i], 2) ?></strong>
+                        </td>
+                        <td class="color-4">
+                            <strong><?= "$" . number_format($correcto['pago_intermedio'][$i], 2) ?></strong>
+                        </td>
+                        <td class="color-3">
+                            <strong><?= "$" . number_format($correcto['pago_tardio'][$i], 2) ?></strong>
+                        </td>
+                        <td>
+                            <?= "$" . number_format($correcto['deuda'][$i], 2) ?>
+                        </td>
+                    </tr>
+                <?php endfor; ?>   
                 </tbody>
             </table>
         </div>
         <!--TABLA DE PROMEDIO-->
         <div class="table">
-            <!-- SUMA ENTRE LOS PRIMEROS 20 DIAS -->
             <?php
-                $totalVeinte = 0; 
-                $totalCompleto = 0; 
-                for ($i=0; $i <= $reco; $i++){
-                    $sumNorm[$i] = $correcto[1][$i] + $correcto[2][$i];
-                    $sumCompl[$i] = $sumNorm[$i] + $correcto[3][$i];
-                    $totalVeinte = $totalVeinte + $sumNorm[$i];
-                    $totalCompleto = $totalCompleto + $sumCompl[$i];
-                } 
-                // PROMEDIO DE RECAUDACIÓN EN ENTRE LOS PRIMEROS 20 DÍAS; 
-                $mediaVeinte = $totalVeinte / $mes;   
-                $mediaCompleto = $totalCompleto / $mes; 
+            // Inicializar totales
+            $totalVeinte = 0; 
+            $totalCompleto = 0;
+            $sumNorm = [];
+            $sumCompl = [];
+
+            // Calcular sumas por mes
+            for ($i = 0; $i < $mes; $i++) {
+                $pagoTemprano = $correcto['pago_temprano'][$i] ?? 0;
+                $pagoIntermedio = $correcto['pago_intermedio'][$i] ?? 0;
+                $pagoTardio = $correcto['pago_tardio'][$i] ?? 0;
+
+                $sumNorm[$i] = $pagoTemprano + $pagoIntermedio;
+                $sumCompl[$i] = $sumNorm[$i] + $pagoTardio;
+
+                $totalVeinte += $sumNorm[$i];
+                $totalCompleto += $sumCompl[$i];
+            }
+
+            // Promedios
+            $mediaVeinte = $mes > 0 ? $totalVeinte / $mes : 0;
+            $mediaCompleto = $mes > 0 ? $totalCompleto / $mes : 0;
             ?>
+
             <table>
                 <thead>
                     <tr>
@@ -145,24 +163,42 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php 
-                        $cont = 0;    
-                        while ($cont <= $reco) :
-                    ?>
+                    <?php for ($i = 0; $i < $mes; $i++): ?>
                     <tr>
-                        <td><?= ($meses[$cont]);?></td>
-                        <td class="color-1"><strong>$<?= number_format($sumNorm[$cont], 2);?></strong></td>
-                        <td class="color-4"><strong>$<?= number_format($sumCompl[$cont], 2);?></strong></td>
+                        <td><?= htmlspecialchars($meses[$i]) ?></td>
+                        <td class="color-1"><strong>$<?= number_format($sumNorm[$i], 2) ?></strong></td>
+                        <td class="color-4"><strong>$<?= number_format($sumCompl[$i], 2) ?></strong></td>
                     </tr>
-                    <?php $cont = $cont +1; endwhile;?>
+                    <?php endfor; ?>
                     <tr>
-                        <td>Media</td>
-                        <td><strong>$<?= number_format($mediaVeinte, 2)?></strong></td>
-                        <td><strong>$<?= number_format($mediaCompleto, 2)?></strong></td>
+                        <td><strong>Media</strong></td>
+                        <td><strong>$<?= number_format($mediaVeinte, 2) ?></strong></td>
+                        <td><strong>$<?= number_format($mediaCompleto, 2) ?></strong></td>
                     </tr>
                 </tbody>
             </table>
         </div>     
+        <select name="year" id="yearSelect" class="estilo-select">
+            <option value = "0">Seleccione un año</option>
+            <?php
+            // Obtener los años disponibles si repetir
+            $consulta = $db->prepare("
+                SELECT DISTINCT YEAR(fecha_emision) AS year 
+                FROM cuotas 
+                ORDER BY year DESC
+            ");
+            $consulta->execute();
+            $result = $consulta->get_result();
+
+            $añoSeleccionado = $_GET['year'] ?? 0;
+
+            while ($row = $result->fetch_assoc()) {
+                $year = $row['year'];
+                $selected = ($añoSeleccionado == $year) ? 'selected' : '';
+                echo "<option value=\"$year\" $selected>$year</option>";
+            }
+            ?>
+        </select>
         <!--GRAFICA LINEAL-->
         <div class="grahp color-5">
             <canvas id="graficaLineal"></canvas>
@@ -173,30 +209,30 @@
                 const etiquetasLineal = <?php echo json_encode($meses) ?> 
                 // Podemos tener varios conjuntos de datos
 
-                const datosVentas2018 = {
+                const datasetPagoTemprano = {
                     label: "10 Días",
-                    data: <?php echo json_encode($correcto[1]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['pago_temprano']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(27, 156, 133, 0.2)',// Color de fondo
                     borderColor: 'rgba(27, 156, 133, 1)',// Color del borde
                     borderWidth: 1,// Ancho del borde
                 };
-                const datosVentas2019 = {
+                const datasetPagoIntermedio = {
                     label: "Días 10 - 20",
-                    data: <?php echo json_encode($correcto[2]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['pago_intermedio']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(247, 208, 96, 0.2)',// Color de fondo
                     borderColor: 'rgba(247, 208, 96, 1)',// Color del borde
                     borderWidth: 1,// Ancho del borde
                 };
-                const datosVentas2020 = {
+                const datasetPagoTardio = {
                     label: "Días > 20",
-                    data: <?php echo json_encode($correcto[3]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['pago_tardio']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(255, 0, 96, 0.2)', // Color de fondo
                     borderColor: 'rgba(255, 0, 96, 1)', // Color del borde
                     borderWidth: 1,// Ancho del borde
                 };
-                const datosVentas2021 = {
+                const datasetPagoNoAbonado = {
                     label: "No-abonados",
-                    data: <?php echo json_encode($correcto[4]) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
+                    data: <?php echo json_encode($correcto['deuda']) ?>, // La data es un arreglo que debe tener la misma cantidad de valores que la cantidad de etiquetas
                     backgroundColor: 'rgba(10, 10, 10, 0.2)',// Color de fondo
                     borderColor: 'rgba(10, 10, 10, 1)',// Color del borde
                     borderWidth: 1,// Ancho del borde
@@ -207,10 +243,10 @@
                     data: {
                         labels: etiquetasLineal,
                         datasets: [
-                            datosVentas2018,
-                            datosVentas2019,
-                            datosVentas2020,
-                            datosVentas2021,
+                            datasetPagoTemprano,
+                            datasetPagoIntermedio,
+                            datasetPagoTardio,
+                            datasetPagoNoAbonado,
                             // Aquí más datos...
                         ]
                     },
@@ -228,5 +264,15 @@
         </div> 
     </section>
 </main>
+<script>
+    document.getElementById('yearSelect').addEventListener('change', function () {
+        const selectedYear = this.value;
+        if (selectedYear != "0") {
+            const url = new URL(window.location.href);
+            url.searchParams.set('year', selectedYear);
+            window.location.href = url.toString();
+        }
+    });
+</script>
       
  

@@ -48,7 +48,7 @@
             <input type="file" name="image2" title="Ticket 2" />
         </section>
         
-        <input type="submit" value="Guardar" class="boton boton-verde"/>
+        <input type="submit" value="Guardar" class="boton-verde"/>
         
     </form>
     <?php

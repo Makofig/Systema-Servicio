@@ -2,3 +2,8 @@
 /images 
 .sql
 css/style-md.css
+/.vs 
+.vscode
+.idea
+venv/   
+.venv/

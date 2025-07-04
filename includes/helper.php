@@ -314,8 +314,9 @@ function clientConDeudas($db, $id){
 }
 
 // SUMA DE ABONADOS EN LA TABLA DE PAGOS; 
-function sumaAbonados($db){
-    $conulta = $db->prepare("select sum(abonado) from pagos ; ");
+function sumaAbonados($db, $year){
+    $conulta = $db->prepare("select sum(abonado) from pagos WHERE YEAR(fecha_pago) = ?;");
+    $conulta->bind_param("i", $year);
     $conulta->execute();
     $result = $conulta->get_result();
     $totalAbonado = implode(mysqli_fetch_assoc($result));
@@ -323,8 +324,9 @@ function sumaAbonados($db){
 }
 
 // SUMA GENERAL DE LOS COSTOS DE LA TABLA PAGOS; 
-function sumaCostos($db){
-    $consult = $db->prepare("select sum(costo) from pagos ;");
+function sumaCostos($db, $year){
+    $consult = $db->prepare("select sum(costo) from pagos WHERE YEAR(fecha_pago) = ?;");
+    $consult->bind_param("i", $year);
     $consult->execute();
     $result = $consult->get_result();
     $totalCompleto = implode(mysqli_fetch_assoc($result)); 
@@ -332,83 +334,101 @@ function sumaCostos($db){
 }
 
 // RECUPERANDO LOS DATOS PARA LA GRAFICA DE LOS PAGOS, DISCRIMINANDO POR RANGO DE DIAS; 
-function tablaClientCuotas($db, $mes){
-    $search = array('-');
-    $replace = array();
+function tablaClientCuotas($db, $mes, $year){
+    $reporte = [];
 
+    for ($i = 1; $i <= $mes; $i++) {
+        $pagoTemprano = 0; 
+        $pagoIntermedio = 0; 
+        $pagoTardio = 0;
+        $noPagado = 0;
 
-    for ($i = 1; $i <= $mes; $i++){
-        $sucess = 0; 
-        $warning = 0; 
-        $danger = 0;
-        $feil = 0; 
-        // CONSULTA
-        $consulta = $db->prepare("select estado, fecha_pago from pagos WHERE num_cuotas = ?;");
-        $consulta->bind_param("s", $i); 
+        $consulta = $db->prepare("
+            SELECT estado, fecha_pago 
+            FROM pagos 
+            WHERE num_cuotas = ? AND YEAR(fecha_pago) = ?
+        ");
+        $consulta->bind_param("ii", $i, $year); 
         $consulta->execute();
         $result = $consulta->get_result(); 
-        while ($pagos = mysqli_fetch_assoc($result)){   
-            // COMPOROBAR LOS RANGOS DE FECHAS
-            // 1. EXTRAER EL DIA DE LA FICHA PARA COMPARAR (DIA <= 10; 10 > DIA <= 20 ; DIA > 20 );
-            $source = str_replace($search, $replace, $pagos['fecha_pago']);
-            $dest = substr($source, 6, 8);
-            // 2. COMPROBAR EL ESTADO DEL PAGO Y SI PAGO CONTROLO EL RANGO DE FEHA, SINO ESTA FUERA DE FECHA;
-            if ($pagos['estado'] == 1 ){
-                switch ($dest){
-                    case $dest <= 10: $sucess = $sucess + 1;
-                        break;
-                    case ($dest > 10 and $dest <= 20): $warning = $warning + 1;
-                        break;
-                    default : $danger = $danger + 1;
+
+        while ($pago = $result->fetch_assoc()) {
+            if ($pago['estado'] == 1 && !empty($pago['fecha_pago'])) {
+                $fecha = DateTime::createFromFormat('Y-m-d', $pago['fecha_pago']);
+                $dia = (int)$fecha->format('d');
+
+                if ($dia <= 10) {
+                    $pagoTemprano++;
+                } elseif ($dia <= 20) {
+                    $pagoIntermedio++;
+                } else {
+                    $pagoTardio++;
                 }
-            }else{
-                $feil = $feil + 1;  
+            } else {
+                $noPagado++;
             }
         }
-        $estado = [$sucess, $warning, $danger, $feil];
-        $reporte[$i] = $estado;        
+
+        $reporte[$i] = [
+            'pago_temprano' => $pagoTemprano,
+            'pago_intermedio' => $pagoIntermedio,
+            'pago_tardio' => $pagoTardio,
+            'deuda' => $noPagado,
+        ];
     }
     return $reporte;
 }
 
 // RECUPERANDO DATOS PARA LA TABLA DE LOS COSTOS Y GRAFICA LINEAL; 
-function tablaClientCuotasCosto($db, $mes){
-    $search = array('-');
-    $replace = array();
+function tablaClientCuotasCosto($db, $mes, $year){
+    $reporte = [];
 
-
-    for ($i = 1; $i <= $mes; $i++){
-        $costoSucess = 0; 
-        $costoWarning = 0; 
+    for ($i = 1; $i <= $mes; $i++) {
+        $costoSuccess = 0;
+        $costoWarning = 0;
         $costoDanger = 0;
-        $costoFeil = 0; 
-        
-        // CONSULTA
-        $consulta = $db->prepare("select estado, fecha_pago, abonado, costo from pagos WHERE num_cuotas = ?;");
-        $consulta->bind_param("s", $i); 
+        $costoFail = 0;
+
+        // Consulta filtrando por mes y año
+        $consulta = $db->prepare("
+            SELECT estado, fecha_pago, abonado, costo 
+            FROM pagos 
+            WHERE num_cuotas = ? AND YEAR(fecha_pago) = ?
+        ");
+        $consulta->bind_param("ii", $i, $year);
         $consulta->execute();
-        $result = $consulta->get_result(); 
-        while ($pagos = mysqli_fetch_assoc($result)){   
-            // COMPOROBAR LOS RANGOS DE FECHAS
-            // 1. EXTRAER EL DIA DE LA FICHA PARA COMPARAR (DIA <= 10; 10 > DIA <= 20 ; DIA > 20 );
-            $source = str_replace($search, $replace, $pagos['fecha_pago']);
-            $dest = substr($source, 6, 8);
-            // 2. COMPROBAR EL ESTADO DEL PAGO Y SI PAGO CONTROLO EL RANGO DE FEHA, SINO ESTA FUERA DE FECHA;
-            if ($pagos['estado'] == 1 ){
-                switch ($dest){
-                    case $dest <= 10: $costoSucess = $costoSucess + $pagos['abonado'];
-                        break;
-                    case ($dest > 10 and $dest <= 20): $costoWarning = $costoWarning + $pagos['abonado'];
-                        break;
-                    default : $costoDanger = $costoDanger + $pagos['abonado'];
+        $result = $consulta->get_result();
+
+        while ($pago = $result->fetch_assoc()) {
+            // Validar si hay pago realizado
+            if ($pago['estado'] == 1) {
+                // Obtener día de la fecha de pago
+                $fecha = date_create($pago['fecha_pago']);
+                $dia = (int)date_format($fecha, "d");
+                
+                // Clasificación por fecha de pago
+                if ($dia <= 10) {
+                    $costoSuccess += $pago['abonado'];
+                } elseif ($dia > 10 && $dia <= 20) {
+                    $costoWarning += $pago['abonado'];
+                } else {
+                    $costoDanger += $pago['abonado'];
                 }
-            }else{
-                $costoFeil = $costoFeil + $pagos['costo'];  
+            } else {
+                // Si no pagó, se considera deuda
+                $costoFail += $pago['costo'];
             }
         }
-        $estado = [$costoSucess, $costoWarning, $costoDanger, $costoFeil];
-        $reporte[$i] = $estado;        
-    }
+        
+        // Guardar el reporte del mes
+        $reporte[$i] = [
+            'pago_temprano' => $costoSuccess,
+            'pago_intermedio' => $costoWarning,
+            'pago_tardio' => $costoDanger,
+            'deuda' => $costoFail
+        ];
+    }   
+ 
     return $reporte;
 }
 
