@@ -7,3 +7,4 @@ css/style-md.css
 .idea
 venv/   
 .venv/
+/vendor 
