@@ -8,3 +8,4 @@ css/style-md.css
 venv/   
 .venv/
 /vendor 
+./vendor

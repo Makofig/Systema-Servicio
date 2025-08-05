@@ -66,7 +66,11 @@
     .color-e5{
         background-color: #cdcdcd;
     }
-   
+    main select {
+        position: relative;
+        left: 1rem; 
+    }
+    
 </style>
 <main>
     <select name="year" id="yearSelect" class="estilo-select">

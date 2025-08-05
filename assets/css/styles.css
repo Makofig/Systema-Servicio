@@ -438,10 +438,10 @@ main form textarea{
 /*ETIQUETA SELECT*/
 .estilo-select {
     max-width: 200px;
-    padding: 10px;
-    margin-bottom: 15px;
+    padding: 0.8rem;
+    margin-bottom: 0.5rem;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 0.3rem;
     background-color: #f2f2f2;
     color: #333;
     font-size: 14px;
@@ -455,7 +455,7 @@ main form textarea{
 
 .estilo-select:focus {
     outline: none;
-    border-color: #555;
+    border-color: #1B9C85;
     background-color: #fff;
     color: #555;
 }

@@ -1,6 +1,6 @@
 <?php 
-require_once __DIR__ . '/vendor/autoload.php'; // Ruta al autoload de Composer
-require_once 'router/Router.php'; // Asegúrate de que la ruta es correcta
+require_once __DIR__ . '/vendor/autoload.php'; 
+require_once 'router/router.php'; 
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -11,7 +11,7 @@ $router->get('login', '/src/login.php');
 $router->get('formulario', '/src/formulario.php'); 
 $router->get('logout', '/src/cerrar.php'); 
 $router->get('home', '/src/principal.php'); 
-$router->get('home/{year}', '/src/principal.php'); // Para manejar el año en la URL
+$router->get('home/{year}', '/src/principal.php'); 
 
 // Buscar 
 $router->post('buscar', '/src/buscar.php');

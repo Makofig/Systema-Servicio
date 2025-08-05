@@ -12,7 +12,7 @@ require_once (BASE_PATH.'/includes/pagina.php');
         display: flex; 
         flex-direction: column;
         width: 98%;
-        height: 540px; 
+        height: 100%;
         gap: 0.8rem 0;
         align-items: center;
         background:#c3c3c3;

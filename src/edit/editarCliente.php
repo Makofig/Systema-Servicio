@@ -99,7 +99,7 @@
                 </select>
             </section>
   
-            <input type="submit" value="Guardar" class="boton boton-verde"/>
+            <input type="submit" value="Guardar" class="boton-verde"/>
         </form> 
     </div>
 </main>
